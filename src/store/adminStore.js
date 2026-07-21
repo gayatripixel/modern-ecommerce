@@ -8,120 +8,101 @@ persist(
 
 (set)=>({
 
-    products: [],
+products: [],
+
+
+setProducts:(products)=>set({
+
+products
+
+}),
+
+
 
 selectedProduct:null,
 
+
+
 setSelectedProduct:(product)=>set({
- selectedProduct:product
+
+selectedProduct:product
+
 }),
+
 
 
 clearSelectedProduct:()=>set({
- selectedProduct:null
+
+selectedProduct:null
+
 }),
 
 
 
 
+addProduct:(product)=>
 
+set((state)=>({
 
-    // Add Product
+products:[
 
-    addProduct:(product)=>
+...state.products,
 
-        set((state)=>({
+{
+...product,
+id:Date.now()
+}
 
-            products:[
+]
 
-                ...state.products,
-
-                {
-                    ...product,
-                    id:Date.now()
-                }
-
-            ]
-
-        })),
+})),
 
 
 
 
+updateProduct:(id,updatedProduct)=>
 
+set((state)=>({
 
+products:
 
-    // Update Product
+state.products.map((product)=>
 
-    updateProduct:(id, updatedProduct)=>
+product.id===id
 
-        set((state)=>({
+?
 
-            products:
+{
+...product,
+...updatedProduct
+}
 
-            state.products.map((product)=>
+:
 
-                product.id === id
+product
 
-                ?
+),
 
-                {
-                    ...product,
-                    ...updatedProduct
-                }
+selectedProduct:null
 
-                :
-
-                product
-
-            ),
-
-            selectedProduct:null
-
-        })),
+})),
 
 
 
 
+deleteProduct:(id)=>
 
+set((state)=>({
 
+products:
 
-    // Delete Product
+state.products.filter(
 
-    deleteProduct:(id)=>
+(product)=>product.id!==id
 
-        set((state)=>({
+)
 
-            products:
-
-            state.products.filter(
-
-                (product)=>
-
-                product.id !== id
-
-            )
-
-        })),
-
-
-
-
-
-
-
-
-    // Clear selected product
-
-    clearSelectedProduct:()=>
-
-
-        set({
-
-            selectedProduct:null
-
-        })
-
+}))
 
 
 }),
@@ -129,10 +110,9 @@ clearSelectedProduct:()=>set({
 
 {
 
-    name:"admin-products"
+name:"admin-products"
 
 }
-
 
 )
 

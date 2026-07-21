@@ -34,10 +34,7 @@ set((state)=>({
 
 users:[
 ...state.users,
-{
- ...userData,
- role:"user"
-}
+userData
 ]
 
 }));
@@ -63,14 +60,16 @@ user.password === password
 
 );
 
-
+console.log("Logged User:", user);
 
 if(user){
 
 
 set({
 
+
 user
+
 
 });
 
@@ -79,6 +78,7 @@ return true;
 
 
 }
+
 
 
 

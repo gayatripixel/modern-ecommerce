@@ -23,9 +23,14 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import AdminRoute from "./components/auth/AdminRoute";
 
 
-import Footer from "./components/common/Footer";
 
-import BackToTop from "./components/common/BackToTop";
+
+
+
+
+
+
+
 
 import ScrollTop from "./components/common/ScrollTop";
 
@@ -149,9 +154,13 @@ const Login = lazy(
 ()=>import("./pages/Login")
 );
 
+const BackToTop = lazy(
+()=>import("./components/common/BackToTop")
+);
 
-
-
+const Footer = lazy(
+()=>import("./components/common/Footer")
+);
 // ================= ROUTES =================
 
 
@@ -201,7 +210,7 @@ Loading Nexora...
 
 location={location}
 
-key={location.pathname}
+key={location.key}
 
 >
 
@@ -758,6 +767,8 @@ className={darkMode ? "dark" : ""}
 
 
 
+<Suspense fallback={null}>
+
 <ScrollTop/>
 
 <BackToTop/>
@@ -765,6 +776,8 @@ className={darkMode ? "dark" : ""}
 <CompareBar/>
 
 <Footer/>
+
+</Suspense>
 
 
 

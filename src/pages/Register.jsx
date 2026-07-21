@@ -144,9 +144,12 @@ email:form.email.toLowerCase().trim(),
 
 password:form.password,
 
-role:"user"
-
-// role:form.user
+role:
+form.email.toLowerCase().trim() === "gayatrithakare128@gmail.com"
+?
+"admin"
+:
+"user"
 
 });
 

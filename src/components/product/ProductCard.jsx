@@ -64,28 +64,13 @@ return (
 <>
 
 <Tilt
-
-
-tiltMaxAngleX={8}
-
-tiltMaxAngleY={8}
-
-perspective={1000}
-
-scale={1.03}
-
-transitionSpeed={1500}
-
-glareEnable={true}
-
-glareMaxOpacity={0.15}
-
-glareColor="#ffffff"
-
-glarePosition="all"
-
-
-
+tiltEnable={window.innerWidth > 768}
+tiltMaxAngleX={4}
+tiltMaxAngleY={4}
+perspective={800}
+scale={1.01}
+transitionSpeed={600}
+glareEnable={false}
 >
 
 
@@ -115,13 +100,13 @@ once:true
 
 
 whileHover={{
-y:-12
+y:-6
 }}
 
 
 
 transition={{
-duration:.5
+duration:.25
 }}
 
 
@@ -177,14 +162,8 @@ duration-500
 <motion.div
 
 
-animate={{
-y:[0,-6,0]
-}}
-
-
-transition={{
-duration:2,
-repeat:Infinity
+whileHover={{
+scale:1.05
 }}
 
 
@@ -377,7 +356,7 @@ className="
 
 absolute
 
-top-30
+top-[7.5rem]
 
 right-4
 
@@ -496,7 +475,8 @@ overflow-hidden
 loading="lazy"
 
 decoding="async"
-
+width="224"
+height="224"
 src={product.image}
 
 
@@ -504,22 +484,14 @@ alt={product.title}
 
 
 
-animate={{
-
-y:[0,-8,0]
-
+whileHover={{
+scale:1.08
 }}
 
 
 
 transition={{
-
-duration:4,
-
-repeat:Infinity,
-
-ease:"easeInOut"
-
+duration:.3
 }}
 
 
