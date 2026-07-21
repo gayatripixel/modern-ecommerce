@@ -1,15 +1,4 @@
-Bhai maine AppointHub wale README ka format dekha aur Nexora jaisa same professional structure me bana diya hai. Isko direct `README.md` me paste kar de.
 
-Maine:
-
-* Same heading style rakha hai
-* Badges add kiye hai
-* Overview professional banaya hai
-* Features ko SaaS README jaisa organize kiya hai
-* Screenshots paths tere `src/assets` ke hisab se rakhe hai
-* Tech stack + folder structure + install + author same format me rakha hai
-
-````md
 <div align="center">
 
 # 🛍️ Nexora
