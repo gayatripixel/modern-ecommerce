@@ -1,4 +1,5 @@
 
+
 <div align="center">
 
 # 🛍️ Nexora
@@ -16,6 +17,10 @@ A modern and fully responsive e-commerce platform built with **React.js**, **Tai
 [![Vercel](https://img.shields.io/badge/Deployment-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
 
 <br>
+
+<p align="center">
+  <img src="./src/assets/nexora-demo.gif" alt="Nexora Demo" width="100%" />
+</p>
 
 🌐 **Live Demo**
 
@@ -365,6 +370,16 @@ src
 </p>
 
 ---
+# 🚀 Upcoming Features
+
+- 🔔 Push Notifications
+- ❤️ Share Wishlist
+- 🌍 Multi-language Support
+- 💬 Live Chat Support
+- 📱 PWA Support
+- 📊 Advanced Analytics
+
+---
 
 # 🖥️ Installation
 
@@ -418,7 +433,7 @@ GitHub
 
 LinkedIn
 
-[https://www.linkedin.com/in/gayatri-thakare-32a9b4378/]
+https://www.linkedin.com/in/gayatri-thakare-32a9b4378/
 
 ---
 
@@ -435,5 +450,5 @@ It motivates me to build more awesome projects.
 Built with ❤️ using React.js • Tailwind CSS • Zustand • React Query
 
 </div>
-```
+
 
