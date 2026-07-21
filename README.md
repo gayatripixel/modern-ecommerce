@@ -418,7 +418,7 @@ GitHub
 
 LinkedIn
 
-(https://www.linkedin.com/in/gayatri-thakare-32a9b4378/)
+[https://www.linkedin.com/in/gayatri-thakare-32a9b4378/]
 
 ---
 
