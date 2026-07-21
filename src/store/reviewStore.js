@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import toast from "react-hot-toast";
 
 
 const useReviewStore = create(
@@ -8,19 +9,101 @@ persist(
 
 (set)=>({
 
-reviews: [],
+reviews:{},
 
 
-addReview:(review)=>
 
-set((state)=>({
+addReview:(productId,review)=>
 
-reviews:[
+
+set((state)=>{
+
+
+const oldReviews =
+state.reviews[productId] || [];
+
+
+
+toast.success(
+"Review added ⭐"
+);
+
+
+
+return{
+
+
+reviews:{
+
+
 ...state.reviews,
-review
+
+
+[productId]:[
+
+review,
+
+...oldReviews
+
 ]
 
-})),
+
+}
+
+
+
+}
+
+
+}),
+
+
+
+
+
+
+markHelpful:(productId,index)=>
+
+set((state)=>{
+
+
+const updated =
+[...state.reviews[productId]];
+
+
+updated[index]={
+
+...updated[index],
+
+helpful:
+(updated[index].helpful || 0)+1
+
+};
+
+
+
+return{
+
+
+reviews:{
+
+
+...state.reviews,
+
+
+[productId]:updated
+
+
+}
+
+
+
+}
+
+
+})
+
+
 
 
 
@@ -28,12 +111,16 @@ review
 
 
 {
+
 name:"review-storage"
+
 }
+
 
 )
 
 );
+
 
 
 export default useReviewStore;

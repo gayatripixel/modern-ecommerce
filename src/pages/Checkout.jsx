@@ -1,5 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  ShieldCheck,
+  Truck,
+  CreditCard,
+  Wallet,
+  Banknote
+} from "lucide-react";
 
 import useCartStore from "../store/cartStore";
 import useOrderStore from "../store/orderStore";
@@ -10,7 +18,9 @@ import CouponBox from "../components/checkout/CouponBox";
 import useCouponStore from "../store/couponStore";
 
 
-function Checkout() {
+
+function Checkout(){
+
 
 
 const cart = useCartStore(
@@ -18,9 +28,11 @@ const cart = useCartStore(
 );
 
 
+
 const clearCart = useCartStore(
 (state)=>state.clearCart
 );
+
 
 
 const addOrder = useOrderStore(
@@ -39,7 +51,15 @@ const navigate = useNavigate();
 
 
 
-const [form,setForm] = useState({
+const [loading,setLoading]=useState(false);
+
+
+
+const [paymentMethod,setPaymentMethod]=useState("COD");
+
+
+
+const [form,setForm]=useState({
 
 name:"",
 email:"",
@@ -49,14 +69,6 @@ city:"",
 pincode:""
 
 });
-
-
-
-const [paymentMethod,setPaymentMethod] = useState("COD");
-
-
-const [loading,setLoading] = useState(false);
-
 
 
 
@@ -82,7 +94,7 @@ setForm({
 
 const subtotal = cart.reduce(
 (total,item)=>
-total + item.price * item.quantity,
+total + item.price*item.quantity,
 0
 );
 
@@ -90,22 +102,22 @@ total + item.price * item.quantity,
 
 const discount = coupon
 ?
-(subtotal * coupon.discount)/100
+(subtotal*coupon.discount)/100
 :
 0;
 
 
 
-const shipping = subtotal > 300 ? 0 : 40;
+const shipping = subtotal>300 ? 0 : 40;
 
 
 
-const tax = (subtotal-discount)*0.18;
+const tax=(subtotal-discount)*0.18;
 
 
 
 const total =
-subtotal - discount + shipping + tax;
+subtotal-discount+shipping+tax;
 
 
 
@@ -113,7 +125,7 @@ subtotal - discount + shipping + tax;
 
 
 
-const handlePayment = async(e)=>{
+const handlePayment=async(e)=>{
 
 
 e.preventDefault();
@@ -127,7 +139,9 @@ if(
 !form.address
 ){
 
-toast.error("Please fill required details");
+toast.error(
+"Please fill required details"
+);
 
 return;
 
@@ -143,8 +157,7 @@ try{
 
 
 await new Promise(
-(resolve)=>
-setTimeout(resolve,1500)
+(resolve)=>setTimeout(resolve,1500)
 );
 
 
@@ -169,6 +182,8 @@ customer:form,
 
 paymentMethod,
 
+status:"Order Placed",
+
 date:new Date().toLocaleDateString(),
 
 status:"Confirmed"
@@ -179,10 +194,7 @@ status:"Confirmed"
 
 addOrder(order);
 
-
-
 clearCart();
-
 
 
 toast.success(
@@ -197,11 +209,11 @@ navigate("/success");
 
 }
 
-catch(error){
+catch(err){
 
-console.log(error);
-
-toast.error("Something went wrong");
+toast.error(
+"Something went wrong"
+);
 
 }
 
@@ -212,8 +224,8 @@ setLoading(false);
 }
 
 
-
 };
+
 
 
 
@@ -224,38 +236,66 @@ setLoading(false);
 if(cart.length===0){
 
 
-return (
+return(
 
-<section className="
+<section
+
+className="
 min-h-screen
+
 flex
 items-center
 justify-center
-bg-gray-50
-dark:bg-gray-950
+
+bg-slate-50
+dark:bg-slate-950
+
 px-6
-">
+
+"
 
 
-<div className="
+>
+
+
+<div
+
+className="
 bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
-p-10
+dark:bg-slate-900
+
+rounded-[40px]
+
+p-12
+
 text-center
-">
+
+shadow-xl
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+"
+
+>
 
 
-<h1 className="
-text-3xl
-font-bold
-text-black
+<h1
+
+className="
+text-4xl
+font-black
+
 dark:text-white
-mb-6
-">
 
-Cart is Empty 🛒
+"
+
+>
+
+Cart Empty 🛒
 
 </h1>
 
@@ -265,14 +305,25 @@ Cart is Empty 🛒
 to="/products"
 
 className="
-bg-black
-dark:bg-white
-text-white
-dark:text-black
+inline-block
+
+mt-8
+
 px-8
 py-3
-rounded-full
-font-semibold
+
+rounded-2xl
+
+bg-gradient-to-r
+
+from-indigo-600
+via-violet-600
+to-cyan-500
+
+text-white
+
+font-bold
+
 "
 
 >
@@ -287,8 +338,8 @@ Continue Shopping
 
 </section>
 
-
 )
+
 
 }
 
@@ -298,123 +349,230 @@ Continue Shopping
 
 
 
-return (
+return(
 
-<section className="
-min-h-screen
-bg-gray-50
-dark:bg-gray-950
-px-6
-py-20
-">
-
-
-<div className="
-max-w-7xl
-mx-auto
-">
-
-
-<h1 className="
-text-4xl
-font-extrabold
-text-black
-dark:text-white
-mb-10
-">
-
-Checkout
-
-</h1>
-
-
-
-
-<div className="
-grid
-lg:grid-cols-2
-gap-10
-">
-
-
-
-
-
-{/* FORM */}
-
-
-
-<form
-
-onSubmit={handlePayment}
+<section
 
 className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
-p-8
-border
-border-gray-200
-dark:border-gray-800
+
+min-h-screen
+
+bg-slate-50
+dark:bg-slate-950
+
+px-6
+py-20
+
 "
 
 >
 
 
-<h2 className="
-text-2xl
-font-bold
-mb-8
-text-black
+<div
+
+className="
+max-w-7xl
+mx-auto
+
+"
+
+>
+
+
+
+<motion.h1
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+className="
+text-5xl
+
+font-black
+
+text-slate-900
+
 dark:text-white
-">
+
+mb-12
+
+"
+
+>
+
+Secure Checkout
+
+</motion.h1>
+
+
+
+
+
+<div
+
+className="
+
+grid
+
+lg:grid-cols-2
+
+gap-10
+
+"
+
+>
+
+
+
+
+
+
+{/* LEFT FORM */}
+
+
+
+<motion.form
+
+
+onSubmit={handlePayment}
+
+
+initial={{
+opacity:0,
+x:-40
+}}
+
+animate={{
+opacity:1,
+x:0
+}}
+
+
+className="
+
+bg-white
+
+dark:bg-slate-900
+
+
+rounded-[40px]
+
+p-8
+
+
+shadow-xl
+
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+
+"
+
+
+>
+
+
+
+<div
+
+className="
+flex
+items-center
+gap-3
+mb-8
+
+"
+
+>
+
+
+<div
+
+className="
+w-12
+h-12
+
+rounded-2xl
+
+bg-indigo-100
+
+dark:bg-indigo-900
+
+flex
+items-center
+justify-center
+
+"
+
+>
+
+<Truck
+
+className="
+text-indigo-600
+
+"
+
+/>
+
+</div>
+
+
+<h2
+
+className="
+text-2xl
+
+font-black
+
+dark:text-white
+
+"
+
+>
 
 Shipping Details
 
 </h2>
 
 
+</div>
+
+
+
 
 
 
 {
-
 [
-
 ["name","Full Name"],
-
-["email","Email"],
-
-["phone","Phone"],
-
+["email","Email Address"],
+["phone","Phone Number"],
 ["address","Address"],
-
 ["city","City"],
-
 ["pincode","Pincode"]
 
 ].map(([name,label])=>(
 
 
 <div
+
 key={name}
+
 className="mb-5"
+
 >
-
-
-<label className="
-block
-mb-2
-font-semibold
-text-gray-700
-dark:text-gray-300
-">
-
-{label}
-
-</label>
-
 
 
 <input
@@ -428,20 +586,39 @@ onChange={handleChange}
 placeholder={label}
 
 className="
+
 w-full
+
 px-5
-py-3
-rounded-xl
+
+py-4
+
+rounded-2xl
+
+
+bg-slate-50
+
+dark:bg-slate-800
+
+
 border
-bg-white
-dark:bg-gray-800
-text-black
-dark:text-white
-border-gray-300
-dark:border-gray-700
+
+border-slate-200
+
+dark:border-slate-700
+
+
 outline-none
+
+
+dark:text-white
+
+
 focus:ring-2
-focus:ring-black
+
+focus:ring-indigo-500
+
+
 "
 
 />
@@ -453,68 +630,95 @@ focus:ring-black
 
 ))
 
-
 }
 
+{/* PAYMENT SECTION */}
 
 
+<h2
 
-
-
-
-<h2 className="
+className="
 text-2xl
-font-bold
-mt-8
-mb-5
-text-black
-dark:text-white
-">
+font-black
 
-Payment
+dark:text-white
+
+mt-10
+mb-5
+
+"
+
+>
+
+Payment Method
 
 </h2>
 
 
 
 
+<div
+
+className="
+space-y-4
+
+"
+
+>
+
 
 {
 
 [
 
-["COD","💵 Cash On Delivery"],
+["COD","Cash On Delivery",Banknote],
 
-["UPI","📱 UPI Payment"],
+["UPI","UPI Payment",Wallet],
 
-["CARD","💳 Card Payment"]
+["CARD","Card Payment",CreditCard]
 
-].map(([value,text])=>(
+].map(([value,text,Icon])=>(
+
 
 
 <label
 
 key={value}
 
+
 className={`
 flex
-gap-4
 items-center
-p-4
-rounded-xl
-border
+gap-4
+
+p-5
+
+rounded-3xl
+
 cursor-pointer
-mb-3
+
+border
+
+
+transition
+
 
 ${
 paymentMethod===value
+
 ?
-"border-black dark:border-white"
+
+"border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30"
+
 :
-"border-gray-300 dark:border-gray-700"
+
+"border-slate-200 dark:border-slate-700"
+
 }
 
+
 `}
+
 
 >
 
@@ -525,23 +729,92 @@ type="radio"
 
 value={value}
 
-checked={paymentMethod===value}
+checked={
+paymentMethod===value
+}
 
 onChange={(e)=>
 setPaymentMethod(e.target.value)
 }
 
+className="hidden"
+
 />
 
 
-<span className="
-text-gray-700
-dark:text-gray-300
-">
 
-{text}
 
-</span>
+<div
+
+className="
+w-12
+h-12
+
+rounded-2xl
+
+bg-gradient-to-br
+
+from-indigo-500
+
+to-cyan-500
+
+flex
+
+items-center
+
+justify-center
+
+text-white
+
+"
+
+>
+
+<Icon size={22}/>
+
+</div>
+
+
+
+
+<div>
+
+<h3
+
+className="
+font-bold
+
+dark:text-white
+
+"
+
+>
+
+{ text }
+
+</h3>
+
+
+<p
+
+className="
+text-sm
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
+
+Secure & encrypted payment
+
+</p>
+
+
+</div>
+
 
 
 </label>
@@ -553,35 +826,140 @@ dark:text-gray-300
 
 
 
+</div>
 
 
-<button
 
-disabled={loading}
+
+
+<div
 
 className="
-w-full
-mt-8
-py-4
-rounded-xl
-bg-black
-dark:bg-white
-text-white
-dark:text-black
-font-bold
-hover:scale-105
-transition
-disabled:opacity-50
+
+mt-6
+
+flex
+
+items-center
+
+gap-3
+
+p-4
+
+rounded-2xl
+
+bg-emerald-50
+
+dark:bg-emerald-900/20
+
+border
+
+border-emerald-200
+
+dark:border-emerald-800
+
 "
 
 >
 
+
+<ShieldCheck
+
+className="
+text-emerald-500
+
+"
+
+/>
+
+
+<p
+
+className="
+text-emerald-700
+
+dark:text-emerald-300
+
+font-semibold
+
+"
+
+>
+
+100% Secure Checkout
+
+</p>
+
+
+</div>
+
+
+
+
+
+<button
+
+
+disabled={loading}
+
+
+className="
+
+w-full
+
+mt-8
+
+py-4
+
+
+rounded-2xl
+
+
+font-black
+
+
+text-white
+
+
+bg-gradient-to-r
+
+
+from-indigo-600
+
+via-violet-600
+
+to-cyan-500
+
+
+
+hover:scale-[1.02]
+
+
+transition
+
+
+disabled:opacity-50
+
+
+"
+
+
+>
+
+
 {
+
 loading
+
 ?
-"Processing..."
+
+"Processing Order..."
+
 :
+
 `Place Order ₹${total.toFixed(2)}`
+
+
 }
 
 
@@ -589,7 +967,7 @@ loading
 
 
 
-</form>
+</motion.form>
 
 
 
@@ -599,13 +977,34 @@ loading
 
 
 
-{/* SUMMARY */}
+
+{/* RIGHT SIDE */}
 
 
 
-<div className="
+
+
+<motion.div
+
+
+initial={{
+opacity:0,
+x:40
+}}
+
+animate={{
+opacity:1,
+x:0
+}}
+
+
+className="
 space-y-6
-">
+
+"
+
+
+>
 
 
 
@@ -613,26 +1012,52 @@ space-y-6
 
 
 
-<div className="
+
+
+<div
+
+className="
+
 bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
+
+dark:bg-slate-900
+
+
+rounded-[40px]
+
 p-8
+
+
+shadow-xl
+
+
 border
-border-gray-200
-dark:border-gray-800
-h-fit
-">
+
+border-slate-200
+
+dark:border-slate-800
+
+"
 
 
-<h2 className="
-text-2xl
-font-bold
-mb-8
-text-black
+>
+
+
+
+<h2
+
+className="
+text-3xl
+
+font-black
+
 dark:text-white
-">
+
+mb-8
+
+"
+
+>
 
 Order Summary
 
@@ -642,59 +1067,98 @@ Order Summary
 
 
 
+
+
 {
 
-cart.map(item=>(
+cart.map((item)=>(
+
 
 
 <div
+
 key={item.id}
+
 className="
 flex
-gap-4
-mb-5
 items-center
+
+gap-4
+
+mb-6
+
 "
+
 >
 
 
 <img
 
+
 src={item.image}
 
+
 className="
+
 w-20
+
 h-20
+
 object-contain
-rounded-xl
-bg-gray-100
-p-2
+
+
+rounded-2xl
+
+
+bg-slate-100
+
+
+p-3
+
+
 "
 
 />
 
 
-<div className="flex-1">
+
+<div
+
+className="flex-1"
+
+>
 
 
-<h3 className="
-font-semibold
-text-black
+<h3
+
+className="
+font-bold
+
 dark:text-white
+
 line-clamp-2
-">
+
+"
+
+>
 
 {item.title}
 
 </h3>
 
 
-<p className="
-text-gray-500
-dark:text-gray-400
-">
+<p
 
-Qty: {item.quantity}
+className="
+text-sm
+
+text-slate-500
+
+"
+
+>
+
+Qty : {item.quantity}
 
 </p>
 
@@ -702,16 +1166,21 @@ Qty: {item.quantity}
 </div>
 
 
-<p className="
-font-bold
-text-black
+
+<p
+
+className="
+font-black
+
 dark:text-white
-">
+
+"
+
+>
 
 ₹{item.price*item.quantity}
 
 </p>
-
 
 
 </div>
@@ -719,98 +1188,76 @@ dark:text-white
 
 ))
 
-
 }
 
 
 
 
 
+<hr
 
-<hr className="
+className="
 my-6
-border-gray-300
-dark:border-gray-700
-"/>
+
+border-slate-200
+
+dark:border-slate-700
+
+"
+
+/>
 
 
 
 
-<div className="space-y-3">
 
 
-<div className="flex justify-between text-gray-600 dark:text-gray-300">
+<div
 
-<span>Subtotal</span>
+className="
+space-y-4
 
-<span>₹{subtotal.toFixed(2)}</span>
+"
 
-</div>
-
-
+>
 
 
-<div className="flex justify-between text-gray-600 dark:text-gray-300">
-
-<span>Discount</span>
+<div className="
+flex
+justify-between
+text-slate-600
+dark:text-slate-300
+">
 
 <span>
-- ₹{discount.toFixed(2)}
+Subtotal
+</span>
+
+<span>
+₹{subtotal.toFixed(2)}
 </span>
 
 </div>
 
 
-
-
-<div className="flex justify-between text-gray-600 dark:text-gray-300">
-
-<span>Shipping</span>
-
-<span>
-{shipping===0?"FREE":`₹${shipping}`}
-</span>
-
-</div>
-
-
-
-<div className="flex justify-between text-gray-600 dark:text-gray-300">
-
-<span>Tax</span>
-
-<span>
-₹{tax.toFixed(2)}
-</span>
-
-</div>
-
-
-
-
-<hr className="
-my-5
-border-gray-300
-dark:border-gray-700
-"/>
 
 
 
 <div className="
 flex
 justify-between
-text-2xl
-font-bold
-text-black
-dark:text-white
+text-slate-600
+dark:text-slate-300
 ">
 
 
-<span>Total</span>
+<span>
+Discount
+</span>
 
 
 <span>
-₹{total.toFixed(2)}
+- ₹{discount.toFixed(2)}
 </span>
 
 
@@ -818,31 +1265,156 @@ dark:text-white
 
 
 
+
+
+<div className="
+flex
+justify-between
+text-slate-600
+dark:text-slate-300
+">
+
+
+<span>
+Shipping
+</span>
+
+
+<span>
+
+{
+shipping===0
+?
+"FREE"
+:
+`₹${shipping}`
+}
+
+</span>
+
+
 </div>
 
 
 
+
+
+<div className="
+flex
+justify-between
+text-slate-600
+dark:text-slate-300
+">
+
+
+<span>
+Tax
+</span>
+
+
+<span>
+₹{tax.toFixed(2)}
+</span>
+
+
 </div>
 
 
 
+
+
+
+<hr
+
+className="
+my-5
+
+border-slate-200
+
+dark:border-slate-700
+
+"
+
+/>
+
+
+
+
+
+
+<div
+
+className="
+flex
+
+justify-between
+
+
+text-3xl
+
+font-black
+
+dark:text-white
+
+"
+
+>
+
+
+<span>
+Total
+</span>
+
+
+<span>
+
+₹{total.toFixed(2)}
+
+</span>
+
+
+</div>
+
+
+
+
 </div>
 
 
 
 
 
+</div>
+
+
+
+
+
+</motion.div>
+
+
+
+
+
+
 
 </div>
 
 
+
+
+
 </div>
+
+
+
 
 
 </section>
 
 
 )
+
 
 }
 

@@ -1,91 +1,48 @@
 import { useState } from "react";
-import useCouponStore from "../../store/couponStore";
+import { motion } from "framer-motion";
+import { TicketPercent, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
 
 function CouponBox(){
 
 
-const [code,setCode] = useState("");
+const [coupon,setCoupon]=useState("");
 
-
-
-const coupon = useCouponStore(
-(state)=>state.coupon
-);
-
-
-
-const applyCoupon = useCouponStore(
-(state)=>state.applyCoupon
-);
-
-
-
-const removeCoupon = useCouponStore(
-(state)=>state.removeCoupon
-);
+const [applied,setApplied]=useState(false);
 
 
 
 
-
-const coupons = {
-
-
-"NEXORA10":{
-code:"NEXORA10",
-discount:10
-},
+const applyCoupon=()=>{
 
 
-"NEXORA20":{
-code:"NEXORA20",
-discount:20
-},
+if(!coupon.trim()){
 
+toast.error("Enter coupon code");
 
-"WELCOME5":{
-code:"WELCOME5",
-discount:5
+return;
+
 }
 
 
-};
+
+if(coupon.toUpperCase()==="NEXORA20"){
 
 
+setApplied(true);
 
-
-
-const handleApply=()=>{
-
-
-const entered = code.trim().toUpperCase();
-
-
-
-if(coupons[entered]){
-
-
-applyCoupon(coupons[entered]);
-
-
-toast.success(
-`${entered} Applied 🎉`
-);
-
-
-setCode("");
-
+toast.success("Coupon Applied 🎉 20% OFF");
 
 
 }
+
 else{
 
 
-toast.error(
-"Invalid Coupon Code"
-);
+setApplied(false);
+
+toast.error("Invalid Coupon Code");
 
 
 }
@@ -99,148 +56,320 @@ toast.error(
 
 
 
-return (
+return(
 
 
-<div className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-p-6
-border
-border-gray-200
-dark:border-gray-800
-shadow-lg
-mt-8
-">
+<motion.section
 
 
-<h2 className="
-text-xl
-font-bold
-text-black
-dark:text-white
-mb-5
-">
+initial={{
 
-🎟 Apply Coupon
+opacity:0,
 
-</h2>
+y:30
+
+}}
+
+
+whileInView={{
+
+opacity:1,
+
+y:0
+
+}}
 
 
 
+viewport={{
+
+once:true
+
+}}
 
 
 
-{
-coupon ?
+className="
+mt-10
+
+"
+
+>
 
 
-(
+
+<div
+
+className="
+
+relative
+
+overflow-hidden
 
 
-<div className="
+rounded-[32px]
+
+
+p-8
+
+
+bg-gradient-to-br
+
+
+from-indigo-600
+
+
+via-purple-600
+
+
+to-cyan-500
+
+
+
+shadow-2xl
+
+
+
+"
+
+>
+
+
+
+
+
+{/* Glow */}
+
+
+<div
+
+className="
+
+absolute
+
+w-72
+
+h-72
+
+bg-white/20
+
+rounded-full
+
+blur-3xl
+
+-top-20
+
+-right-20
+
+"
+
+>
+
+</div>
+
+
+
+
+
+
+
+
+<div
+
+className="
+
+relative
+
+z-10
+
+"
+
+>
+
+
+
+<div
+
+className="
 flex
 items-center
-justify-between
-bg-green-100
-dark:bg-green-900/30
+gap-4
+"
+
+>
+
+
+<div
+
+className="
+
+w-14
+
+h-14
+
+
 rounded-2xl
-p-4
-">
+
+
+bg-white/20
+
+
+backdrop-blur-xl
+
+
+flex
+
+items-center
+
+justify-center
+
+
+"
+
+>
+
+
+<TicketPercent
+
+className="
+text-white
+
+"
+
+size={30}
+
+/>
+
+
+</div>
+
+
+
+
 
 
 <div>
 
 
-<p className="
-font-bold
-text-green-700
-dark:text-green-400
-">
-
-{coupon.code} Applied
-
-</p>
-
-
-<p className="
-text-sm
-text-gray-600
-dark:text-gray-400
-">
-
-{coupon.discount}% Discount
-
-</p>
-
-
-</div>
-
-
-
-
-<button
-
-onClick={removeCoupon}
+<h2
 
 className="
-text-red-600
-font-semibold
+
+text-3xl
+
+font-black
+
+text-white
+
 "
 
 >
 
-Remove
+Have a Coupon?
 
-</button>
+</h2>
+
+
+
+<p
+
+className="
+
+text-white/80
+
+mt-1
+
+"
+
+>
+
+Get exciting discounts on your order
+
+</p>
 
 
 
 </div>
 
 
-
-)
-
-
-:
-
-(
+</div>
 
 
-<div className="
+
+
+
+
+
+
+<div
+
+className="
+
+mt-8
+
 flex
-gap-3
-">
+
+flex-col
+
+md:flex-row
+
+gap-4
+
+"
+
+>
 
 
 <input
 
 
-value={code}
+value={coupon}
 
-onChange={(e)=>setCode(e.target.value)}
 
-placeholder="Enter coupon code"
+onChange={(e)=>setCoupon(e.target.value)}
+
+
+
+placeholder="Enter Coupon Code"
+
 
 
 className="
+
+
 flex-1
-px-5
-py-3
-rounded-xl
-border
-border-gray-300
-dark:border-gray-700
-bg-white
-dark:bg-gray-800
+
+
+px-6
+
+
+py-4
+
+
+rounded-2xl
+
+
+
+bg-white/90
+
+
+
 text-black
-dark:text-white
+
+
+
 outline-none
-focus:ring-2
-focus:ring-black
+
+
+
+placeholder:text-gray-500
+
+
+
 "
+
+
+
 
 />
 
@@ -248,95 +377,172 @@ focus:ring-black
 
 
 
+
+
 <button
 
-onClick={handleApply}
+
+onClick={applyCoupon}
+
+
 
 className="
+
+
+px-8
+
+
+py-4
+
+
+rounded-2xl
+
+
+
 bg-black
-dark:bg-white
+
+
 text-white
-dark:text-black
-px-6
-rounded-xl
-font-semibold
+
+
+
+font-bold
+
+
+
 hover:scale-105
+
+
+
 transition
+
+
+
 "
 
 >
 
+
 Apply
+
 
 </button>
 
 
 
+
+
 </div>
 
 
-)
-
-}
 
 
 
 
-<div className="
-mt-5
-text-sm
-text-gray-500
-dark:text-gray-400
-">
-
-
-<p>
-Available Coupons:
-</p>
-
-
-<div className="
-flex
-flex-wrap
-gap-3
-mt-3
-">
 
 
 {
 
-Object.keys(coupons).map((item)=>(
+applied &&
 
 
-<span
 
-key={item}
+<div
 
 className="
-px-4
-py-2
-rounded-full
-bg-gray-100
-dark:bg-gray-800
-text-gray-700
-dark:text-gray-300
-font-medium
+
+mt-6
+
+
+flex
+
+items-center
+
+gap-3
+
+
+bg-white/20
+
+
+backdrop-blur-xl
+
+
+rounded-2xl
+
+
+px-5
+
+py-4
+
+
+text-white
+
+
+font-semibold
+
+
 "
 
 >
 
-{item}
 
-</span>
+<CheckCircle
+
+size={22}
+
+/>
 
 
-))
+NEXORA20 Applied - You saved 20% 🎉
+
+
+</div>
+
 
 
 }
 
 
-</div>
+
+
+
+<div
+
+className="
+
+mt-6
+
+
+inline-block
+
+
+bg-white/20
+
+
+px-5
+
+
+py-2
+
+
+rounded-full
+
+
+text-white
+
+
+text-sm
+
+
+font-bold
+
+
+"
+
+>
+
+
+Try Code: NEXORA20
 
 
 </div>
@@ -345,11 +551,21 @@ font-medium
 
 
 
+
 </div>
+
+
+
+
+</div>
+
+
+
+
+</motion.section>
 
 
 )
-
 
 }
 

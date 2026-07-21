@@ -1,7 +1,11 @@
 import { useState } from "react";
-import useAuthStore from "../store/authStore";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+
+import useAuthStore from "../store/authStore";
+
 
 
 function Login(){
@@ -16,54 +20,83 @@ const navigate = useNavigate();
 
 
 
-const [email,setEmail] = useState("");
+const [email,setEmail]=useState("");
 
-const [password,setPassword] = useState("");
+const [password,setPassword]=useState("");
 
-const [showPassword,setShowPassword] = useState(false);
+const [showPassword,setShowPassword]=useState(false);
 
-const [loading,setLoading] = useState(false);
-
-
+const [loading,setLoading]=useState(false);
 
 
 
-const handleLogin = async (e) => {
 
-  e.preventDefault();
 
-  if (!email || !password) {
+const handleLogin = (e)=>{
 
-    toast.error("Please fill all fields");
 
-    return;
+e.preventDefault();
 
-  }
 
-  setLoading(true);
 
-  setTimeout(() => {
+if(!email || !password){
 
-    const success = login(
-      email,
-      password
-    );
+toast.error(
+"Please fill all fields"
+);
 
-    if (success) {
+return;
 
-      toast.success("Login Successful 🎉");
+}
 
-      navigate("/");
 
-    } else {
 
-      toast.error("Invalid Email or Password");
+setLoading(true);
 
-    }
 
-    setLoading(false);
 
-  }, 1500);
+setTimeout(()=>{
+
+
+const success = login(
+email.toLowerCase().trim(),
+password
+);
+
+
+
+if(success){
+
+
+toast.success(
+"Login Successful 🎉"
+);
+
+
+navigate("/");
+
+
+}
+
+else{
+
+
+toast.error(
+"Invalid Email or Password"
+);
+
+
+}
+
+
+
+setLoading(false);
+
+
+
+},1200);
+
+
 
 };
 
@@ -71,88 +104,65 @@ const handleLogin = async (e) => {
 
 
 
-return (
+
+return(
 
 
 <section
+
 className="
 min-h-screen
+
+relative
+
+overflow-hidden
+
 flex
 items-center
 justify-center
-bg-gray-50
-dark:bg-gray-950
+
 px-6
-"
->
+py-20
 
 
+bg-slate-50
 
-<form
+dark:bg-slate-950
 
-onSubmit={handleLogin}
-
-className="
-bg-white
-dark:bg-gray-900
-w-full
-max-w-md
-p-8
-rounded-3xl
-shadow-xl
-border
-border-gray-200
-dark:border-gray-800
 "
 
 
 >
 
 
+{/* Glow */}
 
-<h1
+
+<div
 className="
-text-4xl
-font-bold
-text-center
-mb-8
-text-black
-dark:text-white
+absolute
+w-96
+h-96
+bg-indigo-500/20
+blur-3xl
+rounded-full
+top-10
+left-10
 "
->
-
-Login
-
-</h1>
+/>
 
 
-
-
-<input
-
-type="email"
-
-placeholder="Email"
-
-value={email}
-
-onChange={(e)=>setEmail(e.target.value)}
-
+<div
 className="
-w-full
-border
-dark:border-gray-700
-bg-white
-dark:bg-gray-800
-text-black
-dark:text-white
-px-5
-py-3
-rounded-xl
-mb-4
-outline-none
+absolute
+w-96
+h-96
+bg-cyan-500/20
+blur-3xl
+rounded-full
+bottom-10
+right-10
 "
-
 />
 
 
@@ -160,10 +170,304 @@ outline-none
 
 
 
-<div className="relative">
+
+<motion.form
+
+
+onSubmit={handleLogin}
+
+
+initial={{
+opacity:0,
+y:40
+}}
+
+
+animate={{
+opacity:1,
+y:0
+}}
+
+
+transition={{
+duration:.5
+}}
+
+
+
+className="
+
+relative
+
+w-full
+
+max-w-md
+
+
+bg-white/80
+
+dark:bg-slate-900/80
+
+
+backdrop-blur-xl
+
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+
+
+rounded-[40px]
+
+
+shadow-2xl
+
+
+p-10
+
+
+"
+
+>
+
+
+
+
+
+<div
+
+className="
+text-center
+mb-10
+"
+
+>
+
+
+<div
+
+className="
+w-20
+h-20
+
+mx-auto
+
+rounded-3xl
+
+bg-gradient-to-br
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
+flex
+items-center
+justify-center
+
+
+text-white
+
+shadow-lg
+
+"
+
+>
+
+🔐
+
+</div>
+
+
+
+
+
+<h1
+
+className="
+text-4xl
+
+font-black
+
+mt-6
+
+text-slate-900
+
+dark:text-white
+
+"
+
+>
+
+Welcome Back
+
+</h1>
+
+
+
+<p
+
+className="
+mt-2
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
+
+Login to your Nexora account
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+{/* Email */}
+
+
+<div className="
+relative
+mb-5
+">
+
+
+<Mail
+
+size={20}
+
+className="
+absolute
+left-4
+top-4
+
+text-slate-400
+
+"
+
+/>
+
 
 
 <input
+
+
+type="email"
+
+
+placeholder="Email Address"
+
+
+value={email}
+
+
+onChange={(e)=>setEmail(e.target.value)}
+
+
+
+className="
+
+w-full
+
+pl-12
+
+pr-5
+
+py-4
+
+
+rounded-2xl
+
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
+border
+
+border-transparent
+
+
+dark:text-white
+
+
+outline-none
+
+
+focus:ring-2
+
+focus:ring-indigo-500
+
+
+transition
+
+
+"
+
+
+
+
+/>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* Password */}
+
+
+
+<div
+
+className="
+relative
+"
+
+>
+
+
+<Lock
+
+size={20}
+
+className="
+absolute
+
+left-4
+
+top-4
+
+text-slate-400
+
+"
+
+/>
+
+
+
+<input
+
 
 type={
 showPassword
@@ -173,27 +477,67 @@ showPassword
 "password"
 }
 
+
 placeholder="Password"
+
+
 
 value={password}
 
+
+
 onChange={(e)=>setPassword(e.target.value)}
 
+
+
+
 className="
+
 w-full
+
+pl-12
+
+pr-12
+
+py-4
+
+
+rounded-2xl
+
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
 border
-dark:border-gray-700
-bg-white
-dark:bg-gray-800
-text-black
+
+border-transparent
+
+
 dark:text-white
-px-5
-py-3
-rounded-xl
+
+
 outline-none
+
+
+focus:ring-2
+
+focus:ring-indigo-500
+
+
+transition
+
+
 "
 
+
+
+
+
 />
+
+
 
 
 
@@ -203,23 +547,36 @@ type="button"
 
 onClick={()=>setShowPassword(!showPassword)}
 
+
 className="
 absolute
+
 right-4
-top-3
-text-sm
-text-gray-500
+
+top-4
+
+text-slate-400
+
 "
+
 
 >
 
+
 {
+
 showPassword
+
 ?
-"Hide"
+
+<EyeOff size={20}/>
+
 :
-"Show"
+
+<Eye size={20}/>
+
 }
+
 
 </button>
 
@@ -233,13 +590,38 @@ showPassword
 
 
 
-<div className="
+<div
+
+className="
+flex
+justify-between
+items-center
+
+mt-5
+
+mb-8
+
+"
+
+>
+
+
+<label
+
+className="
 flex
 items-center
 gap-2
-mt-5
-mb-6
-">
+
+text-sm
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
 
 
 <input
@@ -249,15 +631,37 @@ type="checkbox"
 />
 
 
-<span className="
-text-gray-600
-dark:text-gray-400
-text-sm
-">
-
 Remember me
 
-</span>
+
+</label>
+
+
+
+
+
+<Link
+
+to="/forgot-password"
+
+className="
+text-sm
+
+text-indigo-600
+
+dark:text-cyan-400
+
+font-semibold
+
+hover:underline
+
+"
+
+>
+
+Forgot Password?
+
+</Link>
 
 
 </div>
@@ -266,21 +670,52 @@ Remember me
 
 
 
+
+
+
 <button
+
 
 disabled={loading}
 
+
 className="
+
 w-full
-bg-black
-dark:bg-white
+
+py-4
+
+
+rounded-2xl
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
 text-white
-dark:text-black
-py-3
-rounded-xl
-font-semibold
+
+
+font-bold
+
+
+shadow-lg
+
+
 hover:scale-105
+
+
 transition
+
+
+disabled:opacity-50
+
+
 "
 
 >
@@ -303,20 +738,63 @@ loading
 
 </button>
 
-<p className="mt-6 text-center text-gray-600 dark:text-gray-400">
-  Don't have an account?
-  <Link
-    to="/register"
-    className="ml-2 font-semibold text-black dark:text-white"
-  >
-    Create Account
-  </Link>
+
+
+
+
+
+
+
+
+<p
+
+className="
+text-center
+
+mt-8
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
+
+
+Don't have an account?
+
+
+<Link
+
+to="/register"
+
+className="
+ml-2
+
+font-bold
+
+text-indigo-600
+
+dark:text-cyan-400
+
+"
+
+>
+
+Create Account
+
+</Link>
+
+
 </p>
 
 
 
 
-</form>
+
+
+</motion.form>
 
 
 
@@ -324,7 +802,6 @@ loading
 
 
 )
-
 
 }
 

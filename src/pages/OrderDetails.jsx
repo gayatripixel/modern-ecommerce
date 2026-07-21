@@ -1,11 +1,25 @@
 import { useParams, Link } from "react-router-dom";
-import useOrderStore from "../store/orderStore";
+import { motion } from "framer-motion";
 
+import {
+Package,
+MapPin,
+CreditCard,
+Calendar,
+ArrowLeft,
+CheckCircle
+} from "lucide-react";
+
+import useOrderStore from "../store/orderStore";
+import OrderTimeline from "../components/order/OrderTimeline";
+
+import generateInvoice from "../utils/generateInvoice";
 
 function OrderDetails(){
 
 
-const {id} = useParams();
+const {id}=useParams();
+
 
 
 const orders = useOrderStore(
@@ -22,42 +36,135 @@ const order = orders.find(
 
 
 
+
+
 if(!order){
 
-return (
 
-<section className="
+return(
+
+
+<section
+
+className="
 min-h-screen
-bg-gray-50
-dark:bg-gray-950
+
+bg-slate-100
+dark:bg-slate-950
+
 flex
 items-center
 justify-center
+
 px-6
-">
+
+"
+
+>
 
 
-<div className="
-bg-white
-dark:bg-gray-900
-p-10
-rounded-3xl
-shadow-xl
+<motion.div
+
+initial={{
+opacity:0,
+scale:.8
+}}
+
+animate={{
+opacity:1,
+scale:1
+}}
+
+className="
+
+bg-white/80
+
+dark:bg-slate-900/70
+
+
+backdrop-blur-xl
+
+
+rounded-[40px]
+
+
+shadow-2xl
+
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+
+p-12
+
+
 text-center
-">
+
+"
+
+>
 
 
-<h1 className="
+<div
+
+className="
+w-20
+h-20
+
+mx-auto
+
+rounded-full
+
+bg-red-100
+
+dark:bg-red-900/40
+
+flex
+
+items-center
+
+justify-center
+
+"
+
+>
+
+<Package
+
+size={40}
+
+className="text-red-500"
+
+/>
+
+
+</div>
+
+
+
+<h1
+
+className="
 text-3xl
-font-bold
-text-black
+
+font-black
+
+mt-6
+
 dark:text-white
-mb-5
-">
+
+"
+
+>
 
 Order Not Found
 
 </h1>
+
+
 
 
 <Link
@@ -65,14 +172,32 @@ Order Not Found
 to="/orders"
 
 className="
-bg-black
-dark:bg-white
-text-white
-dark:text-black
+
+inline-block
+
+mt-8
+
 px-8
+
 py-3
-rounded-full
-font-semibold
+
+
+rounded-2xl
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+via-violet-600
+
+to-cyan-500
+
+
+text-white
+
+font-bold
+
 "
 
 >
@@ -82,12 +207,16 @@ Back To Orders
 </Link>
 
 
-</div>
+
+</motion.div>
+
 
 
 </section>
 
+
 )
+
 
 }
 
@@ -95,30 +224,90 @@ Back To Orders
 
 
 
-return (
 
-<section className="
+
+
+
+return(
+
+
+
+<section
+
+className="
+
 min-h-screen
-bg-gray-50
-dark:bg-gray-950
+
+
+bg-slate-100
+
+dark:bg-slate-950
+
+
 px-6
-py-20
-">
+
+py-28
+
+"
+
+>
 
 
-<div className="
+
+<div
+
+className="
 max-w-6xl
+
 mx-auto
-">
+
+"
+
+>
 
 
-<h1 className="
-text-4xl
-font-extrabold
-text-black
+
+{/* HEADER */}
+
+
+
+<motion.div
+
+
+initial={{
+opacity:0,
+y:30
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+
+className="mb-12"
+
+>
+
+
+
+<h1
+
+className="
+
+text-5xl
+
+font-black
+
+
+text-slate-900
+
 dark:text-white
-mb-10
-">
+
+
+"
+
+>
 
 Order Details 📦
 
@@ -126,54 +315,161 @@ Order Details 📦
 
 
 
+<p
 
+className="
+mt-3
 
-<div className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
-border
-border-gray-200
-dark:border-gray-800
-p-8
-">
+text-slate-500
 
+dark:text-slate-400
 
+"
 
+>
 
-
-{/* Header */}
-
-
-<div className="
-flex
-flex-col
-md:flex-row
-justify-between
-gap-5
-mb-8
-">
-
-
-<div>
-
-<p className="
-text-gray-500
-dark:text-gray-400
-">
-
-Order ID
+Complete information about your order.
 
 </p>
 
 
-<h2 className="
-text-xl
-font-bold
-text-black
-dark:text-white
+
+</motion.div>
+
+
+
+
+
+
+
+
+
+<motion.div
+
+
+initial={{
+opacity:0,
+y:40
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+
+
+className="
+
+
+bg-white/80
+
+
+dark:bg-slate-900/70
+
+
+
+backdrop-blur-xl
+
+
+
+rounded-[40px]
+
+
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+
+
+shadow-2xl
+
+
+
+p-8
+
+
+"
+
+
+
+>
+
+
+
+
+
+
+
+{/* ORDER HEADER */}
+
+
+
+
+<div
+
+className="
+
+grid
+
+md:grid-cols-3
+
+gap-6
+
+
+pb-8
+
+
+border-b
+
+
+border-slate-200
+
+dark:border-slate-700
+
+
+"
+
+>
+
+
+
+<div>
+
+
+<div className="
+flex
+items-center
+gap-2
+text-slate-500
+dark:text-slate-400
 ">
+
+<Package size={18}/>
+
+Order ID
+
+</div>
+
+
+
+<h2
+
+className="
+text-xl
+
+font-black
+
+mt-2
+
+dark:text-white
+
+"
+
+>
 
 #{order.id}
 
@@ -185,30 +481,49 @@ dark:text-white
 
 
 
+
+
+
 <div>
 
-<p className="
-text-gray-500
-dark:text-gray-400
+
+<div className="
+flex
+items-center
+gap-2
+text-slate-500
+dark:text-slate-400
 ">
+
+<Calendar size={18}/>
 
 Date
 
-</p>
+</div>
 
 
-<p className="
-font-semibold
-text-black
+<p
+
+className="
+font-bold
+
+mt-2
+
 dark:text-white
-">
+
+"
+
+>
 
 {order.date}
 
 </p>
 
 
+
 </div>
+
+
 
 
 
@@ -216,55 +531,105 @@ dark:text-white
 
 <div>
 
-<p className="
-text-gray-500
-dark:text-gray-400
+
+<div className="
+flex
+items-center
+gap-2
+text-slate-500
+dark:text-slate-400
 ">
+
+<CheckCircle size={18}/>
 
 Status
 
-</p>
+</div>
 
 
-<span className="
-inline-block
-mt-2
+
+
+<span
+
+className="
+
+inline-flex
+
+mt-3
+
 px-5
-py-2
-rounded-full
-bg-green-100
-text-green-700
-font-semibold
-">
 
-{order.status || "Confirmed"}
+py-2
+
+rounded-full
+
+
+bg-emerald-100
+
+
+dark:bg-emerald-900/40
+
+
+text-emerald-700
+
+
+dark:text-emerald-300
+
+
+font-bold
+
+"
+
+>
+
+{order.status || "Order Placed"}
 
 </span>
 
 
-</div>
-
-
 
 </div>
 
 
 
+</div>
 
 
 
 
 
-{/* Products */}
+{/* ORDER TRACKING TIMELINE */}
+
+<OrderTimeline
+
+status={order.status || "Order Placed"}
+
+/>
 
 
-<h2 className="
-text-2xl
-font-bold
-text-black
+
+
+
+{/* PRODUCTS */}
+
+
+
+<h2
+
+className="
+text-3xl
+
+font-black
+
+mt-10
+
+mb-6
+
 dark:text-white
-mb-5
-">
+
+"
+
+>
 
 Products
 
@@ -272,28 +637,64 @@ Products
 
 
 
-<div className="
-space-y-5
-">
 
-
-{
-
-order.items.map(item=>(
 
 
 <div
 
+className="
+space-y-5
+
+"
+
+>
+
+
+{
+
+order.items.map((item)=>(
+
+
+
+<motion.div
+
+
+whileHover={{
+scale:1.02
+}}
+
+
+
 key={item.id}
 
+
 className="
+
+
 flex
+
 items-center
+
 gap-5
-bg-gray-100
-dark:bg-gray-800
-rounded-2xl
+
+
+bg-slate-100
+
+
+dark:bg-slate-800
+
+
+
+rounded-3xl
+
+
+
 p-5
+
+
+transition
+
+
 "
 
 >
@@ -305,39 +706,72 @@ src={item.image}
 
 alt={item.title}
 
+
 className="
+
 w-24
+
 h-24
+
+
 object-contain
-rounded-xl
+
+
 bg-white
-p-2
+
+
+rounded-2xl
+
+
+p-3
+
 "
 
 />
 
 
 
+
+
 <div className="flex-1">
 
 
-<h3 className="
-font-bold
-text-black
+<h3
+
+className="
+
+font-black
+
+text-slate-900
+
 dark:text-white
-">
+
+
+"
+
+>
 
 {item.title}
 
 </h3>
 
 
-<p className="
-text-gray-500
-dark:text-gray-400
-">
 
-Quantity: {item.quantity}
+
+<p
+
+className="
+mt-2
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
+
+Quantity : {item.quantity}
 
 </p>
 
@@ -346,24 +780,36 @@ Quantity: {item.quantity}
 
 
 
-<p className="
-font-bold
-text-black
+
+<p
+
+className="
+
+font-black
+
+text-xl
+
 dark:text-white
-">
 
-₹{item.price * item.quantity}
+"
+
+>
+
+₹{item.price*item.quantity}
 
 </p>
 
 
 
-</div>
+</motion.div>
+
 
 
 ))
 
+
 }
+
 
 
 </div>
@@ -375,60 +821,109 @@ dark:text-white
 
 
 
-{/* Delivery */}
+
+{/* BOTTOM INFO */}
 
 
-<div className="
+
+<div
+
+className="
+
 grid
+
 md:grid-cols-2
+
 gap-8
-mt-10
-">
+
+
+mt-12
+
+
+"
+
+>
 
 
 
-<div>
 
-<h2 className="
+
+{/* ADDRESS */}
+
+
+
+<div
+
+className="
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
+rounded-3xl
+
+p-6
+
+"
+
+>
+
+
+<h3
+
+className="
 text-xl
-font-bold
-text-black
+
+font-black
+
 dark:text-white
-mb-3
-">
+
+flex
+
+items-center
+
+gap-2
+
+"
+
+>
+
+<MapPin/>
 
 Delivery Address
 
-</h2>
+</h3>
 
 
-<p className="
-text-gray-600
-dark:text-gray-400
-">
 
-{order.customer?.name}
+<div
 
-</p>
+className="
+mt-5
 
-
-<p className="
-text-gray-600
-dark:text-gray-400
-">
-
-{order.customer?.address}
-
-</p>
+space-y-2
 
 
-<p className="
-text-gray-600
-dark:text-gray-400
-">
+text-slate-600
+
+dark:text-slate-400
+
+"
+
+>
+
+
+<p>{order.customer?.name}</p>
+
+<p>{order.customer?.address}</p>
+
+<p>
 
 {order.customer?.city}
+
 -
+
 {order.customer?.pincode}
 
 </p>
@@ -437,59 +932,202 @@ dark:text-gray-400
 </div>
 
 
+</div>
 
 
 
-<div>
 
-<h2 className="
+
+
+
+
+
+{/* PAYMENT */}
+
+
+
+<div
+
+className="
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
+rounded-3xl
+
+p-6
+
+"
+
+>
+
+
+<h3
+
+className="
 text-xl
-font-bold
-text-black
+
+font-black
+
 dark:text-white
-mb-3
-">
+
+flex
+
+items-center
+
+gap-2
+
+"
+
+>
+
+<CreditCard/>
 
 Payment
-
-</h2>
-
-
-<p className="
-text-gray-600
-dark:text-gray-400
-">
-
-Method:
-{order.paymentMethod}
-
-</p>
-
-
-<h3 className="
-text-3xl
-font-extrabold
-text-black
-dark:text-white
-mt-5
-">
-
-₹{order.total.toFixed(2)}
 
 </h3>
 
 
+
+
+<p
+
+className="
+mt-5
+
+text-slate-600
+
+dark:text-slate-400
+
+"
+
+>
+
+Method : {order.paymentMethod || "COD"}
+
+</p>
+
+
+
+
+
+<h2
+
+className="
+
+text-4xl
+
+font-black
+
+mt-5
+
+text-slate-900
+
+dark:text-white
+
+"
+
+>
+
+₹{Number(order.total).toFixed(2)}
+
+</h2>
+
+
+
 </div>
 
 
-</div>
-
-
-
-
-
 
 </div>
+
+
+
+
+
+
+
+</motion.div>
+
+
+<div
+
+className="
+mt-10
+
+flex
+
+flex-wrap
+
+gap-5
+
+items-center
+
+"
+
+>
+
+
+<button
+
+onClick={()=>generateInvoice(order)}
+
+className="
+
+inline-flex
+
+items-center
+
+gap-3
+
+
+px-8
+
+py-4
+
+
+rounded-2xl
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+via-violet-600
+
+to-cyan-500
+
+
+text-white
+
+
+font-black
+
+
+shadow-xl
+
+shadow-indigo-500/30
+
+
+hover:scale-105
+
+
+transition-all
+
+
+duration-300
+
+"
+
+>
+
+📄
+
+Download Invoice
+
+</button>
 
 
 
@@ -500,23 +1138,80 @@ mt-5
 to="/orders"
 
 className="
-inline-block
-mt-8
-bg-black
-dark:bg-white
-text-white
-dark:text-black
+
+
+inline-flex
+
+items-center
+
+gap-2
+
+
 px-8
-py-3
-rounded-full
-font-semibold
+
+py-4
+
+
+rounded-2xl
+
+
+
+border
+
+border-slate-300
+
+dark:border-slate-700
+
+
+
+text-slate-700
+
+dark:text-white
+
+
+
+font-bold
+
+
+
+hover:bg-slate-900
+
+hover:text-white
+
+
+
+dark:hover:bg-white
+
+dark:hover:text-black
+
+
+
+hover:scale-105
+
+
+
+transition-all
+
+
+
+duration-300
+
+
 "
 
 >
 
-← Back To Orders
+
+<ArrowLeft size={20}/>
+
+Back To Orders
+
 
 </Link>
+
+
+</div>
+
 
 
 
@@ -527,10 +1222,12 @@ font-semibold
 
 </section>
 
+
 )
 
 
 }
+
 
 
 export default OrderDetails;

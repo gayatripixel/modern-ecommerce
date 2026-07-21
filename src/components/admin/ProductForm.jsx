@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Plus, Save, X } from "lucide-react";
+
 import useAdminStore from "../../store/adminStore";
 
 
@@ -27,7 +30,6 @@ const clearSelectedProduct = useAdminStore(
 
 
 
-
 const categories=[
 
 "electronics",
@@ -36,7 +38,6 @@ const categories=[
 "women's clothing"
 
 ];
-
 
 
 
@@ -53,7 +54,6 @@ description:""
 
 
 
-
 const [form,setForm]=useState(initialForm);
 
 
@@ -64,7 +64,6 @@ useEffect(()=>{
 
 
 if(selectedProduct){
-
 
 setForm({
 
@@ -78,12 +77,10 @@ image:selectedProduct.image,
 
 description:selectedProduct.description
 
-
 });
 
 
 }
-
 
 
 },[selectedProduct]);
@@ -136,23 +133,22 @@ return;
 
 
 
-
-
-if(selectedProduct){
-
-
-updateProduct(
-
-selectedProduct.id,
-
-{
+const productData={
 
 ...form,
 
 price:Number(form.price)
 
-}
+};
 
+
+
+
+if(selectedProduct){
+
+updateProduct(
+selectedProduct.id,
+productData
 );
 
 
@@ -160,18 +156,9 @@ price:Number(form.price)
 
 else{
 
-
-addProduct({
-
-...form,
-
-price:Number(form.price)
-
-});
-
+addProduct(productData);
 
 }
-
 
 
 
@@ -179,12 +166,7 @@ price:Number(form.price)
 setForm(initialForm);
 
 
-if(clearSelectedProduct){
-
 clearSelectedProduct();
-
-}
-
 
 
 };
@@ -195,25 +177,54 @@ clearSelectedProduct();
 
 
 
-
 return(
 
 
-<div
+
+<motion.div
+
+initial={{
+opacity:0,
+y:40
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:.5
+}}
+
 
 className="
 mt-10
-bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
-border
-border-gray-200
-dark:border-gray-800
+
+rounded-[35px]
+
 p-8
+
+bg-white/70
+dark:bg-slate-900/70
+
+backdrop-blur-xl
+
+border
+border-slate-200
+dark:border-slate-800
+
+shadow-2xl
+
 "
 
+
 >
+
+
+
+
+{/* HEADER */}
 
 
 
@@ -223,32 +234,69 @@ className="
 flex
 justify-between
 items-center
-mb-6
+mb-8
 "
 
 >
+
+
+<div>
 
 
 <h2
 
 className="
-text-2xl
-font-bold
-text-black
-dark:text-white
+text-3xl
+font-black
+
+bg-gradient-to-r
+from-indigo-600
+via-purple-600
+to-cyan-500
+
+bg-clip-text
+text-transparent
+
 "
 
 >
 
 {
+
 selectedProduct
+
 ?
+
 "Edit Product"
+
 :
+
 "Add New Product"
+
 }
 
 </h2>
+
+
+<p
+
+className="
+text-slate-500
+dark:text-slate-400
+mt-2
+"
+
+>
+
+Manage your store products
+
+</p>
+
+
+
+</div>
+
+
 
 
 
@@ -267,11 +315,32 @@ setForm(initialForm);
 }}
 
 className="
-text-red-500
+flex
+items-center
+gap-2
+
+px-5
+py-2
+
+rounded-full
+
+bg-red-100
+dark:bg-red-900/40
+
+text-red-600
+dark:text-red-300
+
 font-semibold
+
+hover:scale-105
+
+transition
+
 "
 
 >
+
+<X size={18}/>
 
 Cancel
 
@@ -290,17 +359,17 @@ Cancel
 
 
 
+
+
 <form
 
 onSubmit={handleSubmit}
 
 className="
-space-y-5
+space-y-6
 "
 
 >
-
-
 
 
 
@@ -316,21 +385,10 @@ onChange={handleChange}
 placeholder="Product Title"
 
 className="
-w-full
-px-5
-py-3
-rounded-xl
-border
-bg-white
-dark:bg-gray-800
-dark:text-white
-outline-none
+input-style
 "
 
 />
-
-
-
 
 
 
@@ -346,22 +404,13 @@ value={form.price}
 
 onChange={handleChange}
 
-placeholder="Price"
+placeholder="Product Price"
 
 className="
-w-full
-px-5
-py-3
-rounded-xl
-border
-bg-white
-dark:bg-gray-800
-dark:text-white
-outline-none
+input-style
 "
 
 />
-
 
 
 
@@ -378,31 +427,20 @@ value={form.category}
 onChange={handleChange}
 
 className="
-w-full
-px-5
-py-3
-rounded-xl
-border
-bg-white
-dark:bg-gray-800
-dark:text-white
-outline-none
+input-style
 "
 
 >
 
 
 <option value="">
-
 Select Category
-
 </option>
 
 
 {
 
 categories.map((cat)=>(
-
 
 <option
 
@@ -416,17 +454,13 @@ value={cat}
 
 </option>
 
-
 ))
-
 
 }
 
 
 
 </select>
-
-
 
 
 
@@ -445,18 +479,11 @@ onChange={handleChange}
 placeholder="Image URL"
 
 className="
-w-full
-px-5
-py-3
-rounded-xl
-border
-bg-white
-dark:bg-gray-800
-dark:text-white
-outline-none
+input-style
 "
 
 />
+
 
 
 
@@ -465,15 +492,27 @@ outline-none
 
 
 {
-
 form.image &&
 
-<div className="
+<motion.div
+
+initial={{
+scale:.8,
+opacity:0
+}}
+
+animate={{
+scale:1,
+opacity:1
+}}
+
+className="
 flex
 justify-center
 "
 
 >
+
 
 <img
 
@@ -482,21 +521,30 @@ src={form.image}
 alt="preview"
 
 className="
-w-40
-h-40
+
+w-48
+h-48
+
 object-contain
-rounded-2xl
-bg-gray-100
-p-3
+
+rounded-3xl
+
+bg-slate-100
+
+dark:bg-slate-800
+
+p-5
+
+shadow-lg
+
 "
 
 />
 
-</div>
+
+</motion.div>
 
 }
-
-
 
 
 
@@ -512,19 +560,11 @@ value={form.description}
 
 onChange={handleChange}
 
-placeholder="Description"
+placeholder="Product Description"
 
 className="
-w-full
-px-5
-py-3
-rounded-xl
-border
-h-32
-bg-white
-dark:bg-gray-800
-dark:text-white
-outline-none
+input-style
+h-36
 "
 
 />
@@ -536,22 +576,51 @@ outline-none
 
 
 
+
 <button
 
 className="
+
 w-full
-bg-black
-dark:bg-white
+
+flex
+items-center
+justify-center
+gap-3
+
+py-4
+
+rounded-2xl
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
 text-white
-dark:text-black
-py-3
-rounded-full
-font-semibold
-hover:scale-105
+
+font-bold
+
+text-lg
+
+
+hover:scale-[1.02]
+
 transition
+
+
+shadow-lg
+
 "
 
+
 >
+
 
 {
 
@@ -559,16 +628,30 @@ selectedProduct
 
 ?
 
-"Update Product"
+<>
+
+<Save size={20}/>
+
+Update Product
+
+</>
 
 :
 
-"Add Product"
+<>
+
+<Plus size={20}/>
+
+Add Product
+
+</>
 
 }
 
 
+
 </button>
+
 
 
 
@@ -582,7 +665,62 @@ selectedProduct
 
 
 
-</div>
+
+
+<style>
+
+{`
+
+.input-style{
+
+width:100%;
+
+padding:14px 20px;
+
+border-radius:18px;
+
+border:1px solid;
+
+background:white;
+
+outline:none;
+
+color:#111827;
+
+transition:.3s;
+
+}
+
+
+.dark .input-style{
+
+background:#1e293b;
+
+color:white;
+
+border-color:#334155;
+
+}
+
+
+.input-style:focus{
+
+ring:2px;
+
+border-color:#6366f1;
+
+}
+
+
+`}
+
+</style>
+
+
+
+
+
+</motion.div>
 
 
 )

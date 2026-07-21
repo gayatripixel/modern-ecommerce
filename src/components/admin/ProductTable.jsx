@@ -1,10 +1,12 @@
 import {
   Edit,
   Trash2,
-  Plus
+  Plus,
+  Search
 } from "lucide-react";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 
 function ProductTable({
@@ -15,25 +17,27 @@ function ProductTable({
 }) {
 
 
-const [search,setSearch] = useState("");
+const [search,setSearch]=useState("");
 
-const [category,setCategory] = useState("All");
+const [category,setCategory]=useState("All");
 
-const [sort,setSort] = useState("");
+const [sort,setSort]=useState("");
 
-const [page,setPage] = useState(1);
-
-
-
-const itemsPerPage = 8;
+const [page,setPage]=useState(1);
 
 
 
-const categories = [
+const itemsPerPage=8;
+
+
+
+const categories=[
 "All",
-...new Set(products.map(
+...new Set(
+products.map(
 (product)=>product.category
-))
+)
+)
 ];
 
 
@@ -46,7 +50,9 @@ let filteredProducts = products.filter((product)=>{
 const searchMatch =
 product.title
 .toLowerCase()
-.includes(search.toLowerCase());
+.includes(
+search.toLowerCase()
+);
 
 
 const categoryMatch =
@@ -86,13 +92,10 @@ filteredProducts.sort(
 
 
 
-
 const totalPages =
 Math.ceil(
 filteredProducts.length/itemsPerPage
 );
-
-
 
 
 
@@ -106,58 +109,123 @@ page*itemsPerPage
 
 
 
-
-
 return (
 
-<div
+<motion.div
+
+initial={{
+opacity:0,
+y:40
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:.5
+}}
+
 className="
-mt-10
-bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
-border
-border-gray-200
-dark:border-gray-800
+mt-12
+
+rounded-[35px]
+
 overflow-hidden
+
+border
+
+border-slate-200
+dark:border-slate-800
+
+bg-white/70
+dark:bg-slate-900/70
+
+backdrop-blur-xl
+
+shadow-2xl
+
 "
+
 >
 
 
 
+{/* HEADER */}
 
-
-{/* Header */}
 
 <div
+
 className="
-p-6
+p-8
+
 flex
+
 flex-col
+
 md:flex-row
+
 justify-between
+
 gap-5
-md:items-center
+
+items-center
+
 border-b
-border-gray-200
-dark:border-gray-800
+
+border-slate-200
+
+dark:border-slate-800
+
 "
+
 >
+
+
+<div>
 
 
 <h2
+
 className="
-text-2xl
-font-bold
-text-black
+text-3xl
+
+font-black
+
+text-slate-900
+
 dark:text-white
+
 "
+
 >
 
 Product Management
 
 </h2>
+
+
+<p
+
+className="
+text-slate-500
+
+dark:text-slate-400
+
+mt-2
+
+"
+
+>
+
+Manage your store products
+
+</p>
+
+
+</div>
+
 
 
 
@@ -169,18 +237,29 @@ onClick={onAdd}
 className="
 flex
 items-center
-justify-center
 gap-2
-bg-black
-dark:bg-white
-text-white
-dark:text-black
-px-6
+
+px-7
 py-3
-rounded-full
-font-semibold
+
+rounded-2xl
+
+bg-gradient-to-r
+
+from-indigo-600
+via-purple-600
+to-cyan-500
+
+text-white
+
+font-bold
+
+shadow-lg
+
 hover:scale-105
+
 transition
+
 "
 
 >
@@ -200,19 +279,43 @@ Add Product
 
 
 
+{/* FILTERS */}
 
 
-{/* Filters */}
+<div
+
+className="
+p-8
+
+grid
+
+md:grid-cols-3
+
+gap-5
+
+"
+
+>
+
+
 
 <div
 className="
-p-6
-grid
-md:grid-cols-3
-gap-5
+relative
 "
 >
 
+
+<Search
+
+className="
+absolute
+left-4
+top-3.5
+text-slate-400
+"
+
+/>
 
 
 <input
@@ -229,17 +332,41 @@ setPage(1);
 placeholder="Search Product..."
 
 className="
-border
-rounded-full
+w-full
+
+pl-12
+
 px-5
+
 py-3
+
+rounded-2xl
+
+border
+
 bg-white
-dark:bg-gray-800
+
+dark:bg-slate-800
+
 dark:text-white
+
+border-slate-300
+
+dark:border-slate-700
+
 outline-none
+
+focus:ring-2
+
+focus:ring-indigo-500
+
 "
 
 />
+
+
+</div>
+
 
 
 
@@ -258,23 +385,34 @@ setPage(1);
 }}
 
 className="
-border
-rounded-full
 px-5
 py-3
+
+rounded-2xl
+
+border
+
 bg-white
-dark:bg-gray-800
+
+dark:bg-slate-800
+
 dark:text-white
+
+border-slate-300
+
+dark:border-slate-700
+
 "
 
 >
 
-
 {
-categories.map((cat)=>(
+categories.map(cat=>(
 
 <option key={cat}>
+
 {cat}
+
 </option>
 
 ))
@@ -289,7 +427,6 @@ categories.map((cat)=>(
 
 
 
-
 <select
 
 value={sort}
@@ -297,32 +434,50 @@ value={sort}
 onChange={(e)=>setSort(e.target.value)}
 
 className="
-border
-rounded-full
 px-5
 py-3
+
+rounded-2xl
+
+border
+
 bg-white
-dark:bg-gray-800
+
+dark:bg-slate-800
+
 dark:text-white
+
+border-slate-300
+
+dark:border-slate-700
+
 "
 
 >
 
+
 <option value="">
-Sort By Price
+
+Sort Price
+
 </option>
+
 
 <option value="low">
+
 Low To High
+
 </option>
 
+
 <option value="high">
+
 High To Low
+
 </option>
 
 
 </select>
-
 
 
 
@@ -337,52 +492,68 @@ High To Low
 
 
 
+{/* TABLE */}
+
+
+
 <div className="overflow-x-auto">
 
 
-<table
-className="
-w-full
-"
->
+<table className="w-full">
 
 
 <thead
+
 className="
-bg-gray-100
-dark:bg-gray-800
-text-gray-700
-dark:text-gray-300
+bg-slate-100
+
+dark:bg-slate-800
+
 "
+
 >
 
 
 <tr>
 
 
-<th className="p-5 text-left">
-Image
+{
+[
+"Image",
+"Product",
+"Category",
+"Price",
+"Actions"
+].map(head=>(
+
+<th
+
+key={head}
+
+className="
+p-5
+text-left
+
+text-sm
+
+font-bold
+
+text-slate-600
+
+dark:text-slate-300
+
+"
+
+>
+
+{head}
+
 </th>
 
 
-<th className="p-5 text-left">
-Product
-</th>
+))
 
-
-<th className="p-5 text-left">
-Category
-</th>
-
-
-<th className="p-5 text-left">
-Price
-</th>
-
-
-<th className="p-5 text-left">
-Actions
-</th>
+}
 
 
 </tr>
@@ -394,24 +565,29 @@ Actions
 
 
 
-
 <tbody>
 
 
 {
+
 currentProducts.length===0 ?
 
 
 <tr>
 
 <td
+
 colSpan="5"
+
 className="
 text-center
+
 py-20
-text-gray-500
-dark:text-gray-400
+
+text-slate-500
+
 "
+
 >
 
 No Products Found
@@ -424,21 +600,45 @@ No Products Found
 :
 
 
-currentProducts.map((product)=>(
+currentProducts.map(
+(product,index)=>(
 
 
-<tr
+<motion.tr
+
 
 key={product.id}
 
+initial={{
+opacity:0,
+y:20
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+delay:index*.05
+}}
+
+
 className="
 border-b
-border-gray-200
-dark:border-gray-800
-hover:bg-gray-50
-dark:hover:bg-gray-800
+
+border-slate-200
+
+dark:border-slate-800
+
+hover:bg-slate-100/50
+
+dark:hover:bg-slate-800/50
+
 transition
+
 "
+
 
 >
 
@@ -455,10 +655,17 @@ alt={product.title}
 className="
 w-16
 h-16
+
 object-contain
-rounded-xl
-bg-gray-100
+
+rounded-2xl
+
+bg-slate-100
+
+dark:bg-slate-800
+
 p-2
+
 "
 
 />
@@ -470,12 +677,22 @@ p-2
 
 
 
-<td className="
+<td
+
+className="
 p-5
-font-semibold
-text-black
+
+font-bold
+
+text-slate-900
+
 dark:text-white
-">
+
+max-w-xs
+
+"
+
+>
 
 {product.title}
 
@@ -486,11 +703,18 @@ dark:text-white
 
 
 
-<td className="
+<td
+
+className="
 p-5
-text-gray-600
-dark:text-gray-300
-">
+
+text-slate-600
+
+dark:text-slate-300
+
+"
+
+>
 
 {product.category}
 
@@ -500,12 +724,22 @@ dark:text-gray-300
 
 
 
-<td className="
+
+
+<td
+
+className="
 p-5
-font-bold
-text-black
-dark:text-white
-">
+
+font-black
+
+text-indigo-600
+
+dark:text-cyan-400
+
+"
+
+>
 
 ₹{product.price}
 
@@ -519,7 +753,10 @@ dark:text-white
 <td className="p-5">
 
 
-<div className="flex gap-3">
+<div className="
+flex
+gap-3
+">
 
 
 <button
@@ -528,11 +765,21 @@ onClick={()=>onEdit(product)}
 
 className="
 p-3
+
 rounded-xl
-bg-blue-100
-dark:bg-blue-900
-text-blue-600
-dark:text-blue-300
+
+bg-indigo-100
+
+dark:bg-indigo-900/40
+
+text-indigo-600
+
+dark:text-indigo-300
+
+hover:scale-110
+
+transition
+
 "
 
 >
@@ -546,11 +793,18 @@ dark:text-blue-300
 
 
 
+
 <button
 
 onClick={()=>{
 
-if(window.confirm("Delete this product?")){
+if(
+window.confirm(
+"Delete this product?"
+)
+)
+
+{
 
 onDelete(product.id);
 
@@ -560,11 +814,21 @@ onDelete(product.id);
 
 className="
 p-3
+
 rounded-xl
+
 bg-red-100
-dark:bg-red-900
+
+dark:bg-red-900/40
+
 text-red-600
+
 dark:text-red-300
+
+hover:scale-110
+
+transition
+
 "
 
 >
@@ -581,10 +845,13 @@ dark:text-red-300
 
 
 
-</tr>
+
+</motion.tr>
 
 
-))
+)
+
+)
 
 
 }
@@ -606,20 +873,28 @@ dark:text-red-300
 
 
 
-{/* Pagination */}
+{/* PAGINATION */}
+
 
 
 {
-totalPages > 1 &&
+
+totalPages>1 &&
 
 
 <div
+
 className="
 flex
+
 justify-center
+
 gap-3
-p-6
+
+p-8
+
 "
+
 >
 
 
@@ -627,7 +902,8 @@ p-6
 
 Array.from({
 length:totalPages
-}).map((_,index)=>(
+})
+.map((_,index)=>(
 
 
 <button
@@ -637,17 +913,28 @@ key={index}
 onClick={()=>setPage(index+1)}
 
 className={`
-px-4
-py-2
+w-10
+h-10
+
 rounded-full
-font-semibold
+
+font-bold
+
+transition
+
 ${
 page===index+1
+
 ?
-"bg-black text-white dark:bg-white dark:text-black"
+
+"bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+
 :
-"bg-gray-200 dark:bg-gray-800 dark:text-white"
+
+"bg-slate-200 dark:bg-slate-800 dark:text-white"
+
 }
+
 `}
 
 >
@@ -663,6 +950,7 @@ page===index+1
 }
 
 
+
 </div>
 
 
@@ -670,7 +958,7 @@ page===index+1
 
 
 
-</div>
+</motion.div>
 
 
 )

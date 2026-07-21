@@ -3,32 +3,41 @@ import { persist } from "zustand/middleware";
 import toast from "react-hot-toast";
 
 
-const useWishlistStore=create(
+const useWishlistStore = create(
 
 persist(
 
 (set)=>({
 
-
-wishlist:[],
-
+wishlist: [],
 
 
-addToWishlist:(product)=>
+
+toggleWishlist:(product)=>
 
 set((state)=>{
 
 
 const exists = state.wishlist.some(
-(item)=>item.id===product.id
+(item)=>item.id === product.id
 );
+
 
 
 if(exists){
 
-toast.error("Already in wishlist ❤️");
 
-return state;
+toast.success("Removed from wishlist 💔");
+
+
+return{
+
+wishlist: state.wishlist.filter(
+(item)=>item.id !== product.id
+)
+
+};
+
 
 }
 
@@ -44,7 +53,7 @@ wishlist:[
 product
 ]
 
-}
+};
 
 
 }),
@@ -54,28 +63,19 @@ product
 
 removeFromWishlist:(id)=>
 
-set((state)=>{
-
-
-toast.success("Removed from wishlist");
-
-
-return{
+set((state)=>({
 
 wishlist:
 state.wishlist.filter(
-item=>item.id!==id
+(item)=>item.id !== id
 )
 
-}
-
-
-
-})
+}))
 
 
 
 }),
+
 
 {
 
@@ -85,6 +85,7 @@ name:"wishlist-storage"
 
 
 )
+
 
 );
 

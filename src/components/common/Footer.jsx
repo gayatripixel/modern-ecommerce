@@ -1,163 +1,1218 @@
 import { Link } from "react-router-dom";
+
 import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaXTwitter,
+FaInstagram,
+FaLinkedinIn,
+FaGithub,
+FaXTwitter
 } from "react-icons/fa6";
 
-function Footer() {
-  return (
-    <footer className="bg-gradient-to-br from-black via-gray-900 to-black text-white mt-20">
+import {
+Mail,
+ArrowRight
+} from "lucide-react";
 
-      <div className="max-w-7xl mx-auto px-6 py-16 grid gap-12 md:grid-cols-4">
 
-        {/* Brand */}
+import { motion } from "framer-motion";
 
-        <div>
 
-          <h2 className="text-4xl font-extrabold tracking-wide">
-            Nexora
-          </h2>
 
-          <p className="text-gray-400 leading-7 mt-5">
-            Modern premium eCommerce platform built with
-            React, Zustand, React Query and Tailwind CSS.
-          </p>
 
-        </div>
 
-        {/* Quick Links */}
+function Footer(){
 
-        <div>
 
-          <h3 className="text-xl font-bold mb-5">
-            Quick Links
-          </h3>
 
-          <div className="space-y-3">
+const social=[
 
-            <Link to="/" className="hover:text-white text-gray-400 transition">
-              Home
-            </Link>
+FaInstagram,
+FaLinkedinIn,
+FaGithub,
+FaXTwitter
 
-            <br />
+];
 
-            <Link to="/products" className="hover:text-white text-gray-400 transition">
-              Products
-            </Link>
 
-            <br />
 
-            <Link to="/wishlist" className="hover:text-white text-gray-400 transition">
-              Wishlist
-            </Link>
 
-            <br />
+return(
 
-            <Link to="/orders" className="hover:text-white text-gray-400 transition">
-              Orders
-            </Link>
 
-          </div>
 
-        </div>
+<footer
 
-        {/* Categories */}
 
-        <div>
+className="
 
-          <h3 className="text-xl font-bold mb-5">
-            Categories
-          </h3>
 
-          <div className="space-y-3 text-gray-400">
+relative
 
-            <p>Electronics</p>
-            <p>Jewellery</p>
-            <p>Men's Clothing</p>
-            <p>Women's Clothing</p>
 
-          </div>
+mt-24
 
-        </div>
 
-        {/* Contact */}
 
-        <div>
+bg-slate-100
 
-          <h3 className="text-xl font-bold mb-5">
-            Contact
-          </h3>
 
-          <div className="space-y-3 text-gray-400">
+dark:bg-slate-950
 
-            <p>📧 support@nexora.com</p>
 
-            <p>📞 +91 9876543210</p>
 
-            <p>📍 Mumbai, India</p>
+border-t
 
-          </div>
 
-        </div>
+border-slate-200
 
-      </div>
 
-<div className="border-t border-gray-800">
+dark:border-slate-800
 
-  <div className="max-w-7xl mx-auto py-6 px-6 text-center">
 
-    <p className="text-gray-500">
-      © 2026 Nexora. All Rights Reserved.
-    </p>
 
-<div className="flex justify-center gap-6 mt-5 text-2xl">
+overflow-hidden
 
-  <a
-    href="https://facebook.com"
-    target="_blank"
-    rel="noreferrer"
-    className="text-gray-400 hover:text-blue-500 hover:scale-125 transition duration-300"
-  >
-    <FaFacebookF />
-  </a>
 
-  <a
-    href="https://instagram.com"
-    target="_blank"
-    rel="noreferrer"
-    className="text-gray-400 hover:text-pink-500 hover:scale-125 transition duration-300"
-  >
-    <FaInstagram />
-  </a>
 
-  <a
-    href="https://linkedin.com"
-    target="_blank"
-    rel="noreferrer"
-    className="text-gray-400 hover:text-blue-400 hover:scale-125 transition duration-300"
-  >
-    <FaLinkedinIn />
-  </a>
+"
 
-  <a
-    href="https://twitter.com"
-    target="_blank"
-    rel="noreferrer"
-    className="text-gray-400 hover:text-sky-400 hover:scale-125 transition duration-300"
-  >
-    <FaXTwitter />
-  </a>
+>
+
+
+
+
+
+{/* Glow */}
+
+
+
+<div
+
+className="
+
+absolute
+
+w-96
+
+h-96
+
+
+bg-indigo-500/20
+
+
+blur-3xl
+
+
+rounded-full
+
+
+-top-40
+
+
+-left-20
+
+
+"
+
+>
 
 </div>
 
-  </div>
+
+
+
+
+
+<div
+
+className="
+
+max-w-7xl
+
+mx-auto
+
+
+px-6
+
+py-16
+
+
+
+grid
+
+
+grid-cols-1
+
+
+sm:grid-cols-2
+
+
+lg:grid-cols-4
+
+
+gap-12
+
+
+
+relative
+
+
+
+"
+
+>
+
+
+
+
+
+
+
+
+
+{/* BRAND */}
+
+
+
+<motion.div
+
+
+initial={{
+
+opacity:0,
+
+y:30
+
+}}
+
+
+whileInView={{
+
+opacity:1,
+
+y:0
+
+}}
+
+
+
+>
+
+
+<div
+
+className="
+
+flex
+
+items-center
+
+gap-3
+
+"
+
+>
+
+
+<div
+
+className="
+
+w-14
+
+h-14
+
+
+rounded-2xl
+
+
+
+bg-gradient-to-br
+
+
+from-indigo-600
+
+
+via-purple-600
+
+
+to-cyan-500
+
+
+
+flex
+
+items-center
+
+justify-center
+
+
+
+text-white
+
+
+text-3xl
+
+
+font-black
+
+
+
+shadow-xl
+
+
+"
+
+>
+
+N
 
 </div>
 
-    </footer>
-  );
+
+
+
+
+<h2
+
+className="
+
+text-3xl
+
+font-black
+
+
+
+bg-gradient-to-r
+
+
+from-indigo-600
+
+
+to-cyan-500
+
+
+
+bg-clip-text
+
+
+text-transparent
+
+
+"
+
+>
+
+Nexora
+
+</h2>
+
+
+
+</div>
+
+
+
+
+
+
+
+<p
+
+className="
+
+mt-5
+
+
+leading-7
+
+
+
+text-slate-500
+
+
+dark:text-slate-400
+
+
+"
+
+>
+
+Premium ecommerce experience built with
+React, Tailwind CSS, Zustand and modern
+frontend technologies.
+
+</p>
+
+
+
+
+</motion.div>
+
+
+
+
+
+
+
+
+
+{/* EXPLORE */}
+
+
+
+<div>
+
+
+<h3
+
+className="
+
+text-xl
+
+font-black
+
+
+text-slate-900
+
+
+dark:text-white
+
+
+mb-6
+
+
+"
+
+>
+
+Explore
+
+</h3>
+
+
+
+<div
+
+className="
+
+space-y-4
+
+
+text-slate-500
+
+
+dark:text-slate-400
+
+
+"
+
+>
+
+
+{
+
+[
+
+["Home","/"],
+
+["Products","/products"],
+
+["Wishlist","/wishlist"],
+
+["Orders","/orders"]
+
+].map(item=>(
+
+
+<Link
+
+key={item[0]}
+
+to={item[1]}
+
+className="
+
+block
+
+hover:text-indigo-600
+
+transition
+
+"
+
+>
+
+{item[0]}
+
+</Link>
+
+
+))
+
+
 }
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* SUPPORT */}
+
+
+
+<div>
+
+
+<h3
+
+className="
+
+text-xl
+
+font-black
+
+
+text-slate-900
+
+
+dark:text-white
+
+
+mb-6
+
+
+"
+
+>
+
+Support
+
+</h3>
+
+
+
+
+
+<div
+
+className="
+
+space-y-4
+
+
+text-slate-500
+
+
+dark:text-slate-400
+
+
+"
+
+>
+
+
+
+<Link
+
+to="/faq"
+
+className="block hover:text-indigo-600 transition"
+
+>
+
+FAQ
+
+</Link>
+
+
+
+
+<Link
+
+to="/contact"
+
+className="block hover:text-indigo-600 transition"
+
+>
+
+Contact Us
+
+</Link>
+
+
+
+
+<Link
+
+to="/privacy"
+
+className="block hover:text-indigo-600 transition"
+
+>
+
+Privacy Policy
+
+</Link>
+
+
+
+
+
+<Link
+
+to="/terms"
+
+className="block hover:text-indigo-600 transition"
+
+>
+
+Terms & Conditions
+
+</Link>
+
+
+
+
+
+
+<div
+
+className="
+
+flex
+
+items-center
+
+gap-2
+
+"
+
+>
+
+<Mail size={18}/>
+
+support@nexora.com
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* SOCIAL + PAYMENT */}
+
+
+
+
+<div>
+
+
+<h3
+
+className="
+
+text-xl
+
+font-black
+
+
+text-slate-900
+
+
+dark:text-white
+
+
+mb-6
+
+
+"
+
+>
+
+Payments
+
+</h3>
+
+
+
+
+
+
+<div
+
+className="
+
+flex
+
+gap-3
+
+flex-wrap
+
+
+"
+
+>
+
+
+{
+
+["Visa","Mastercard","UPI","COD"]
+
+.map(item=>(
+
+
+<span
+
+
+key={item}
+
+
+className="
+
+
+px-5
+
+py-3
+
+
+
+rounded-2xl
+
+
+
+bg-white
+
+
+dark:bg-slate-900
+
+
+
+shadow-lg
+
+
+
+text-sm
+
+
+font-semibold
+
+
+
+text-slate-700
+
+
+dark:text-white
+
+
+
+border
+
+
+border-slate-200
+
+
+dark:border-slate-800
+
+
+
+"
+
+>
+
+
+{item}
+
+
+</span>
+
+
+
+))
+
+
+}
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<h3
+
+className="
+
+text-xl
+
+font-black
+
+
+text-slate-900
+
+
+dark:text-white
+
+
+mt-8
+
+mb-5
+
+
+"
+
+>
+
+Follow Us
+
+</h3>
+
+
+
+
+
+<div
+
+className="
+
+flex
+
+gap-4
+
+"
+
+>
+
+
+{
+
+
+social.map((Icon,index)=>(
+
+
+<motion.a
+
+
+key={index}
+
+
+
+whileHover={{
+
+y:-8,
+
+scale:1.1
+
+}}
+
+
+
+href="#"
+
+
+
+className="
+
+
+w-12
+
+h-12
+
+
+
+rounded-full
+
+
+
+bg-white
+
+
+dark:bg-slate-900
+
+
+
+shadow-lg
+
+
+
+flex
+
+items-center
+
+justify-center
+
+
+
+text-slate-600
+
+
+dark:text-white
+
+
+
+hover:text-indigo-600
+
+
+
+transition
+
+
+
+"
+
+>
+
+
+<Icon/>
+
+
+</motion.a>
+
+
+))
+
+
+}
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* NEWSLETTER BAR */}
+
+
+
+<div
+
+className="
+
+max-w-7xl
+
+mx-auto
+
+px-6
+
+pb-8
+
+"
+
+>
+
+
+<div
+
+className="
+
+rounded-[32px]
+
+p-8
+
+
+
+bg-gradient-to-r
+
+
+from-indigo-600
+
+
+via-purple-600
+
+
+to-cyan-500
+
+
+
+flex
+
+flex-col
+
+md:flex-row
+
+
+
+justify-between
+
+
+
+items-center
+
+
+
+gap-5
+
+
+
+text-white
+
+
+
+"
+
+>
+
+
+<div>
+
+
+<h2
+
+className="
+
+text-2xl
+
+font-black
+
+"
+
+>
+
+Stay Updated 🚀
+
+</h2>
+
+
+<p
+
+className="
+
+text-white/80
+
+mt-2
+
+"
+
+>
+
+Get latest offers and product updates.
+
+</p>
+
+
+</div>
+
+
+
+
+
+<Link
+
+to="/"
+
+className="
+
+flex
+
+items-center
+
+gap-2
+
+
+
+bg-white
+
+
+text-black
+
+
+
+px-6
+
+py-3
+
+
+
+rounded-full
+
+
+
+font-bold
+
+
+
+hover:scale-105
+
+
+
+transition
+
+
+"
+
+>
+
+
+Explore Store
+
+<ArrowRight size={18}/>
+
+
+</Link>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* COPYRIGHT */}
+
+
+
+<div
+
+className="
+
+border-t
+
+border-slate-200
+
+
+dark:border-slate-800
+
+
+"
+
+>
+
+
+<div
+
+className="
+
+max-w-7xl
+
+mx-auto
+
+
+px-6
+
+py-6
+
+
+
+flex
+
+flex-col
+
+md:flex-row
+
+
+
+justify-between
+
+
+
+gap-3
+
+
+
+text-sm
+
+
+
+text-slate-500
+
+
+
+"
+
+>
+
+
+<p>
+
+© 2026 Nexora. All Rights Reserved.
+
+</p>
+
+
+<p>
+
+Built with ❤️ React + Tailwind
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+</footer>
+
+
+
+)
+
+}
+
 
 export default Footer;

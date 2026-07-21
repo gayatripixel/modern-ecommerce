@@ -7,6 +7,9 @@ import {
   XCircle
 } from "lucide-react";
 
+import { motion } from "framer-motion";
+
+
 
 function DashboardStats({
 products,
@@ -30,8 +33,7 @@ total + Number(order.total || 0),
 
 const pendingOrders =
 orders.filter(
-(order)=>
-order.status==="Pending"
+(order)=>order.status==="Pending"
 ).length;
 
 
@@ -39,20 +41,16 @@ order.status==="Pending"
 
 const deliveredOrders =
 orders.filter(
-(order)=>
-order.status==="Delivered"
+(order)=>order.status==="Delivered"
 ).length;
-
 
 
 
 
 const cancelledOrders =
 orders.filter(
-(order)=>
-order.status==="Cancelled"
+(order)=>order.status==="Cancelled"
 ).length;
-
 
 
 
@@ -65,61 +63,60 @@ const stats=[
 {
 title:"Total Products",
 value:products.length,
-icon:<Package size={32}/>,
-description:"Available Products"
+description:"Available Products",
+icon:<Package size={30}/>,
+gradient:"from-indigo-500 via-purple-500 to-cyan-500"
 },
-
 
 
 
 {
 title:"Total Orders",
 value:orders.length,
-icon:<ShoppingBag size={32}/>,
-description:"Customer Orders"
+description:"Customer Orders",
+icon:<ShoppingBag size={30}/>,
+gradient:"from-blue-500 to-indigo-600"
 },
-
 
 
 
 {
 title:"Total Revenue",
 value:`₹${revenue.toFixed(2)}`,
-icon:<IndianRupee size={32}/>,
-description:"Total Sales"
+description:"Total Sales",
+icon:<IndianRupee size={30}/>,
+gradient:"from-emerald-500 to-teal-500"
 },
-
 
 
 
 {
 title:"Pending Orders",
 value:pendingOrders,
-icon:<Clock size={32}/>,
-description:"Need Processing"
+description:"Need Processing",
+icon:<Clock size={30}/>,
+gradient:"from-orange-500 to-yellow-500"
 },
-
-
 
 
 
 {
 title:"Delivered",
 value:deliveredOrders,
-icon:<CheckCircle size={32}/>,
-description:"Completed Orders"
+description:"Completed Orders",
+icon:<CheckCircle size={30}/>,
+gradient:"from-green-500 to-emerald-600"
 },
-
 
 
 
 {
 title:"Cancelled",
 value:cancelledOrders,
-icon:<XCircle size={32}/>,
-description:"Cancelled Orders"
+description:"Cancelled Orders",
+icon:<XCircle size={30}/>,
+gradient:"from-red-500 to-pink-600"
 }
-
 
 
 ];
@@ -129,17 +126,26 @@ description:"Cancelled Orders"
 
 
 
-return (
+
+
+return(
+
 
 <div
 
 className="
 grid
+
 grid-cols-1
+
 sm:grid-cols-2
+
 lg:grid-cols-3
+
 xl:grid-cols-6
+
 gap-6
+
 "
 
 >
@@ -147,52 +153,178 @@ gap-6
 
 {
 
-stats.map((item)=>(
+stats.map((item,index)=>(
 
 
-<div
+
+<motion.div
+
 
 key={item.title}
 
+
+initial={{
+opacity:0,
+y:30
+}}
+
+
+animate={{
+opacity:1,
+y:0
+}}
+
+
+transition={{
+delay:index*0.08
+}}
+
+
+
+whileHover={{
+y:-8,
+scale:1.03
+}}
+
+
+
 className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-p-6
+
+
+relative
+
+
+overflow-hidden
+
+
+rounded-[32px]
+
+
+
+bg-white/80
+
+
+dark:bg-slate-900/70
+
+
+
+backdrop-blur-xl
+
+
+
+
 border
-border-gray-200
-dark:border-gray-800
-shadow-lg
-hover:shadow-2xl
-hover:-translate-y-1
-transition
+
+border-slate-200
+
+dark:border-slate-800
+
+
+
+
+shadow-xl
+
+
+
+
+p-6
+
+
+
 "
 
 >
 
 
 
+
+{/* Glow */}
+
+
+
 <div
 
-className="
-w-14
-h-14
+className={`
+absolute
+-top-10
+-right-10
+
+w-32
+h-32
+
+rounded-full
+
+blur-3xl
+
+opacity-30
+
+bg-gradient-to-br
+
+${item.gradient}
+
+`}
+
+/>
+
+
+
+
+
+
+
+
+{/* ICON */}
+
+
+
+<div
+
+
+className={`
+
+relative
+
+w-16
+
+h-16
+
+
 rounded-2xl
-bg-gray-100
-dark:bg-gray-800
+
+
 flex
+
 items-center
+
 justify-center
-text-black
-dark:text-white
-mb-5
-"
+
+
+text-white
+
+
+bg-gradient-to-br
+
+
+${item.gradient}
+
+
+
+shadow-lg
+
+
+mb-6
+
+
+`}
+
 
 >
 
 {item.icon}
 
+
 </div>
+
 
 
 
@@ -202,10 +334,21 @@ mb-5
 <h2
 
 className="
+
+relative
+
+
 text-3xl
-font-extrabold
-text-black
+
+font-black
+
+
+text-slate-900
+
+
 dark:text-white
+
+
 "
 
 >
@@ -218,13 +361,26 @@ dark:text-white
 
 
 
+
+
 <h3
 
 className="
-mt-2
-font-semibold
-text-black
+
+mt-3
+
+
+text-lg
+
+font-bold
+
+
+text-slate-900
+
+
 dark:text-white
+
+
 "
 
 >
@@ -241,10 +397,19 @@ dark:text-white
 <p
 
 className="
-text-sm
-text-gray-500
-dark:text-gray-400
+
 mt-1
+
+
+text-sm
+
+
+text-slate-500
+
+
+dark:text-slate-400
+
+
 "
 
 >
@@ -256,7 +421,10 @@ mt-1
 
 
 
-</div>
+
+
+
+</motion.div>
 
 
 
@@ -267,10 +435,13 @@ mt-1
 
 
 
+
 </div>
 
 
 )
+
+
 
 }
 

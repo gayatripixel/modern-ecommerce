@@ -1,5 +1,9 @@
+import { motion } from "framer-motion";
+import { Search, XCircle } from "lucide-react";
 import { useState } from "react";
+
 import useOrderStore from "../../store/orderStore";
+
 
 
 function OrderTable(){
@@ -34,13 +38,17 @@ const filteredOrders = orders.filter((order)=>{
 
 
 const searchMatch =
+
 order.customer?.name
 ?.toLowerCase()
-.includes(search.toLowerCase());
+.includes(
+search.toLowerCase()
+);
 
 
 
 const statusMatch =
+
 status==="All" ||
 order.status===status;
 
@@ -56,25 +64,55 @@ return searchMatch && statusMatch;
 
 
 
+
 const getStatusStyle=(status)=>{
 
 
-if(status==="Delivered")
-
-return "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300";
+switch(status){
 
 
-if(status==="Cancelled")
+case "Delivered":
 
-return "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300";
+return `
+bg-emerald-100
+text-emerald-700
+dark:bg-emerald-900/40
+dark:text-emerald-300
+`;
 
 
-if(status==="Shipped")
+case "Cancelled":
 
-return "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300";
+return `
+bg-red-100
+text-red-700
+dark:bg-red-900/40
+dark:text-red-300
+`;
 
 
-return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300";
+
+case "Shipped":
+
+return `
+bg-blue-100
+text-blue-700
+dark:bg-blue-900/40
+dark:text-blue-300
+`;
+
+
+
+default:
+
+return `
+bg-yellow-100
+text-yellow-700
+dark:bg-yellow-900/40
+dark:text-yellow-300
+`;
+
+}
 
 
 };
@@ -83,38 +121,85 @@ return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300";
 
 
 
-return (
 
-<div
+
+return(
+
+
+
+<motion.div
+
+
+initial={{
+opacity:0,
+y:40
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+transition={{
+duration:.5
+}}
+
+
 
 className="
-mt-10
-bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
+
+mt-12
+
+rounded-[35px]
+
+bg-white/70
+
+dark:bg-slate-900/70
+
+backdrop-blur-xl
+
+
 border
-border-gray-200
-dark:border-gray-800
+
+border-slate-200
+
+dark:border-slate-800
+
+
+shadow-2xl
+
+
 overflow-hidden
+
 "
+
 
 >
 
 
 
 
-{/* Header */}
+
+
+
+{/* HEADER */}
+
 
 
 <div
 
 className="
-p-6
+
+p-8
+
 border-b
-border-gray-200
-dark:border-gray-800
+
+border-slate-200
+
+dark:border-slate-800
+
 "
+
 
 >
 
@@ -122,10 +207,26 @@ dark:border-gray-800
 <h2
 
 className="
-text-2xl
-font-bold
-text-black
-dark:text-white
+
+text-3xl
+
+font-black
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
+bg-clip-text
+
+text-transparent
+
+
 "
 
 >
@@ -133,6 +234,25 @@ dark:text-white
 Order Management
 
 </h2>
+
+
+<p
+
+className="
+
+text-slate-500
+
+dark:text-slate-400
+
+mt-2
+
+"
+
+>
+
+Track and manage customer orders
+
+</p>
 
 
 </div>
@@ -144,43 +264,114 @@ Order Management
 
 
 
-{/* Filters */}
+
+{/* FILTER */}
+
 
 
 <div
 
 className="
-p-6
+
+p-8
+
 grid
+
 md:grid-cols-2
+
 gap-5
+
 "
 
 >
 
 
-<input
 
-type="text"
 
-placeholder="Search Customer..."
-
-value={search}
-
-onChange={(e)=>setSearch(e.target.value)}
+<div
 
 className="
-border
-rounded-full
-px-5
-py-3
-bg-white
-dark:bg-gray-800
-dark:text-white
-outline-none
+
+relative
+
+"
+
+>
+
+
+<Search
+
+className="
+
+absolute
+
+left-5
+
+top-3.5
+
+text-slate-400
+
 "
 
 />
+
+
+
+<input
+
+
+placeholder="Search Customer..."
+
+
+value={search}
+
+
+onChange={(e)=>
+setSearch(e.target.value)
+}
+
+
+className="
+
+w-full
+
+pl-14
+
+pr-5
+
+py-3
+
+rounded-2xl
+
+
+bg-white
+
+dark:bg-slate-800
+
+
+border
+
+border-slate-300
+
+dark:border-slate-700
+
+
+dark:text-white
+
+
+outline-none
+
+
+"
+
+
+
+
+/>
+
+
+</div>
+
 
 
 
@@ -190,21 +381,44 @@ outline-none
 
 <select
 
+
 value={status}
 
-onChange={(e)=>setStatus(e.target.value)}
+
+onChange={(e)=>
+setStatus(e.target.value)
+}
+
 
 className="
-border
-rounded-full
+
 px-5
+
 py-3
+
+rounded-2xl
+
+
 bg-white
-dark:bg-gray-800
+
+dark:bg-slate-800
+
+
+border
+
+border-slate-300
+
+dark:border-slate-700
+
+
 dark:text-white
+
 "
 
+
 >
+
+
 
 <option>
 All
@@ -239,7 +453,10 @@ Cancelled
 </select>
 
 
+
+
 </div>
+
 
 
 
@@ -256,28 +473,37 @@ filteredOrders.length===0 ?
 <div
 
 className="
-py-20
+
+py-24
+
 text-center
-text-gray-500
-dark:text-gray-400
+
+text-slate-500
+
+dark:text-slate-400
+
 "
 
 >
 
 No Orders Found
 
-</div>
 
+</div>
 
 
 :
 
 
+
 <div
 
 className="
-p-6
+
+p-8
+
 space-y-8
+
 "
 
 >
@@ -285,69 +511,97 @@ space-y-8
 
 {
 
-filteredOrders.map((order)=>(
+
+filteredOrders.map((order,index)=>(
 
 
-<div
+<motion.div
+
 
 key={order.id}
 
+
+initial={{
+opacity:0,
+y:30
+}}
+
+
+animate={{
+opacity:1,
+y:0
+}}
+
+
+transition={{
+delay:index*.05
+}}
+
+
+
 className="
-bg-gray-50
-dark:bg-gray-800
-rounded-3xl
+
+
+rounded-[30px]
+
+
 p-6
+
+
+bg-slate-50
+
+dark:bg-slate-800/70
+
+
 border
-border-gray-200
-dark:border-gray-700
+
+border-slate-200
+
+dark:border-slate-700
+
+
+hover:shadow-xl
+
+
+transition
+
+
 "
 
 >
 
 
+{/* TOP */}
 
-
-
-
-
-
-{/* Header */}
 
 
 <div
 
 className="
-flex
-flex-col
-md:flex-row
-justify-between
-gap-5
-mb-6
+
+grid
+
+md:grid-cols-3
+
+gap-6
+
+mb-8
+
 "
 
 >
 
 
+
 <div>
 
-<p className="
-text-gray-500
-dark:text-gray-400
-">
-
+<p className="label-style">
 Order ID
-
 </p>
 
 
-<h3 className="
-font-bold
-text-black
-dark:text-white
-">
-
+<h3 className="title-style">
 #{order.id}
-
 </h3>
 
 </div>
@@ -357,44 +611,23 @@ dark:text-white
 
 
 
-
 <div>
 
-<p className="
-text-gray-500
-dark:text-gray-400
-">
-
+<p className="label-style">
 Customer
-
 </p>
 
 
-<h3 className="
-font-semibold
-text-black
-dark:text-white
-">
-
+<h3 className="title-style">
 {order.customer?.name}
-
 </h3>
 
 
-<p className="
-text-sm
-text-gray-500
-dark:text-gray-400
-">
-
+<p className="small-style">
 {order.customer?.email}
-
 </p>
 
-
 </div>
-
-
 
 
 
@@ -403,26 +636,14 @@ dark:text-gray-400
 
 <div>
 
-<p className="
-text-gray-500
-dark:text-gray-400
-">
-
+<p className="label-style">
 Date
-
 </p>
 
 
-<p className="
-font-semibold
-text-black
-dark:text-white
-">
-
+<h3 className="title-style">
 {order.date}
-
-</p>
-
+</h3>
 
 </div>
 
@@ -438,8 +659,9 @@ dark:text-white
 
 
 
-{/* Products */}
 
+
+{/* PRODUCTS */}
 
 
 <div className="space-y-3">
@@ -447,7 +669,7 @@ dark:text-white
 
 {
 
-order.items.map((item)=>(
+order.items.map(item=>(
 
 
 <div
@@ -455,23 +677,37 @@ order.items.map((item)=>(
 key={item.id}
 
 className="
+
+
 flex
+
 justify-between
+
 items-center
-bg-white
-dark:bg-gray-900
-rounded-xl
+
+
 p-4
+
+
+rounded-2xl
+
+
+bg-white
+
+dark:bg-slate-900
+
+
 "
+
 
 >
 
 
 <div>
 
+
 <h4 className="
-font-semibold
-text-black
+font-bold
 dark:text-white
 ">
 
@@ -480,11 +716,7 @@ dark:text-white
 </h4>
 
 
-<p className="
-text-sm
-text-gray-500
-dark:text-gray-400
-">
+<p className="small-style">
 
 Qty : {item.quantity}
 
@@ -495,16 +727,15 @@ Qty : {item.quantity}
 
 
 
-
 <p className="
-font-bold
-text-black
+font-black
 dark:text-white
 ">
 
 ₹{item.price * item.quantity}
 
 </p>
+
 
 
 </div>
@@ -525,50 +756,49 @@ dark:text-white
 
 
 
-{/* Footer */}
+{/* FOOTER */}
 
 
 
 <div
 
 className="
-mt-6
+
+mt-8
+
 pt-6
+
 border-t
-border-gray-200
-dark:border-gray-700
-flex
-flex-col
-md:flex-row
-justify-between
+
+border-slate-200
+
+dark:border-slate-700
+
+
+grid
+
+md:grid-cols-3
+
 gap-6
+
 "
 
 >
 
 
 
+
 <div>
 
-<p className="
-text-gray-500
-dark:text-gray-400
-">
 
+<p className="label-style">
 Payment
-
 </p>
 
 
-<p className="
-font-semibold
-text-black
-dark:text-white
-">
-
+<h3 className="title-style">
 {order.paymentMethod}
-
-</p>
+</h3>
 
 
 </div>
@@ -582,26 +812,21 @@ dark:text-white
 
 <div>
 
-<p className="
-text-gray-500
-dark:text-gray-400
-">
 
+<p className="label-style">
 Total
-
 </p>
 
 
-<p className="
-text-2xl
-font-bold
-text-black
+<h3 className="
+text-3xl
+font-black
 dark:text-white
 ">
 
 ₹{order.total.toFixed(2)}
 
-</p>
+</h3>
 
 
 </div>
@@ -613,30 +838,24 @@ dark:text-white
 
 
 
+
+
 <div>
 
 
-<p className="
-text-gray-500
-dark:text-gray-400
-mb-3
-">
-
+<p className="label-style mb-3">
 Status
-
 </p>
-
 
 
 
 <span
 
 className={`
-inline-block
-px-4
+px-5
 py-2
 rounded-full
-font-semibold
+font-bold
 text-sm
 ${getStatusStyle(order.status)}
 `}
@@ -654,27 +873,48 @@ ${getStatusStyle(order.status)}
 
 <select
 
+
 value={order.status}
 
+
 onChange={(e)=>
+
 updateOrderStatus(
 order.id,
 e.target.value
 )
+
 }
 
+
 className="
-mt-3
+
+mt-4
+
 block
+
 px-4
+
 py-2
-rounded-full
-border
+
+rounded-xl
+
+
 bg-white
-dark:bg-gray-900
-text-black
+
+dark:bg-slate-900
+
+
+border
+
+dark:border-slate-700
+
+
 dark:text-white
+
+
 "
+
 
 >
 
@@ -710,12 +950,16 @@ Cancelled
 
 <button
 
+
 onClick={()=>{
 
 
-if(window.confirm(
+if(
+window.confirm(
 "Cancel this order?"
-)){
+)
+
+){
 
 cancelOrder(order.id);
 
@@ -724,21 +968,51 @@ cancelOrder(order.id);
 
 }}
 
+
 className="
-mt-3
-bg-red-600
-text-white
+
+mt-4
+
+flex
+
+items-center
+
+gap-2
+
+
 px-5
+
 py-2
+
+
 rounded-full
-font-semibold
+
+
+bg-red-600
+
+
+text-white
+
+
+font-bold
+
+
 hover:bg-red-700
+
+
 transition
+
+
 "
+
 
 >
 
+
+<XCircle size={18}/>
+
 Cancel Order
+
 
 </button>
 
@@ -750,13 +1024,15 @@ Cancel Order
 
 
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+</motion.div>
 
 
 ))
@@ -765,6 +1041,7 @@ Cancel Order
 }
 
 
+
 </div>
 
 
@@ -772,10 +1049,59 @@ Cancel Order
 
 
 
-</div>
+<style>
+
+{`
+
+.label-style{
+
+font-size:14px;
+
+color:#64748b;
+
+}
+
+
+.title-style{
+
+font-weight:800;
+
+color:#0f172a;
+
+}
+
+
+.small-style{
+
+font-size:14px;
+
+color:#64748b;
+
+}
+
+
+.dark .title-style{
+
+color:white;
+
+}
+
+`}
+
+
+</style>
+
+
+
+
+
+
+</motion.div>
+
 
 
 )
+
 
 }
 

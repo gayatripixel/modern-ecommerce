@@ -1,43 +1,437 @@
+import React, { useState } from "react";
+
 import { Link } from "react-router-dom";
+
+import { 
+Heart,
+ShoppingCart,
+Star,
+Scale,
+Eye
+} from "lucide-react";
+
+
+import { motion } from "framer-motion";
+
+import Tilt from "react-parallax-tilt";
+
+
 import useCartStore from "../../store/cartStore";
+
 import useWishlistStore from "../../store/wishlistStore";
+
+
 import toast from "react-hot-toast";
 
 
+import useCompareStore from "../../store/compareStore";
+
+
+import QuickViewModal from "./QuickViewModal";
+
 function ProductCard({product}) {
 
+const [quickView,setQuickView] = useState(false);
 
 const {addToCart}=useCartStore();
 
-const {addToWishlist}=useWishlistStore();
 
+
+const {toggleWishlist}=useWishlistStore();
+
+
+
+const wishlist = useWishlistStore(
+(state)=>state.wishlist
+);
+
+
+
+const isWishlisted = wishlist.some(
+(item)=>item.id===product.id
+);
+
+
+const addToCompare = useCompareStore(
+(state)=>state.addToCompare
+);
 
 
 
 
 return (
 
+<>
+
+<Tilt
+
+
+tiltMaxAngleX={8}
+
+tiltMaxAngleY={8}
+
+perspective={1000}
+
+scale={1.03}
+
+transitionSpeed={1500}
+
+glareEnable={true}
+
+glareMaxOpacity={0.15}
+
+glareColor="#ffffff"
+
+glarePosition="all"
+
+
+
+>
+
+
+
+<motion.div
+
+
+
+initial={{
+opacity:0,
+y:40
+}}
+
+
+
+whileInView={{
+opacity:1,
+y:0
+}}
+
+
+
+viewport={{
+once:true
+}}
+
+
+
+whileHover={{
+y:-12
+}}
+
+
+
+transition={{
+duration:.5
+}}
+
+
+
+className="
+
+group
+
+relative
+
+bg-white
+
+dark:bg-slate-900
+
+
+rounded-3xl
+
+
+overflow-hidden
+
+
+border
+
+border-slate-200
+
+dark:border-slate-700
+
+
+shadow-lg
+
+
+hover:shadow-2xl
+
+
+transition-all
+
+duration-500
+
+"
+
+>
+
+
+
+
+
+
+
+{/* SALE BADGE */}
+
+
+
+<motion.div
+
+
+animate={{
+y:[0,-6,0]
+}}
+
+
+transition={{
+duration:2,
+repeat:Infinity
+}}
+
+
+className="
+
+absolute
+
+top-4
+
+left-4
+
+z-20
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
+text-white
+
+
+text-xs
+
+font-bold
+
+
+px-4
+
+py-2
+
+
+rounded-full
+
+
+shadow-xl
+
+"
+
+>
+
+
+20% OFF
+
+
+</motion.div>
+
+
 
 <div
 
 className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-overflow-hidden
-shadow-md
-border
-border-gray-200
-dark:border-gray-800
-hover:shadow-xl
-transition
-duration-300
-flex
-flex-col
+absolute
+top-16
+left-4
+z-20
+
+bg-red-500
+
+text-white
+
+text-xs
+
+font-bold
+
+px-4
+
+py-2
+
+rounded-full
+
+shadow-lg
+
 "
 
+>
+
+Only 5 Left 🔥
+
+</div>
+
+
+
+
+
+{/* WISHLIST BUTTON */}
+
+
+
+<motion.button
+
+
+
+whileTap={{
+scale:0.8
+}}
+
+
+
+onClick={()=>toggleWishlist(product)}
+
+
+
+className="
+
+absolute
+
+top-16
+
+right-4
+
+
+z-20
+
+
+w-11
+
+h-11
+
+
+rounded-full
+
+
+flex
+
+items-center
+
+justify-center
+
+
+bg-white/90
+
+dark:bg-slate-800/90
+
+
+shadow-xl
+
+
+hover:scale-110
+
+
+transition
+
+"
 
 >
+
+
+<Heart
+
+
+size={20}
+
+
+className={
+
+isWishlisted
+
+?
+
+"fill-red-500 text-red-500"
+
+:
+
+"text-slate-500 dark:text-white"
+
+}
+
+/>
+
+
+</motion.button>
+
+{/* QUICK VIEW BUTTON */}
+
+
+<motion.button
+
+whileTap={{
+scale:0.8
+}}
+
+onClick={()=>setQuickView(true)}
+
+className="
+
+absolute
+
+top-30
+
+right-4
+
+z-20
+
+
+w-11
+
+h-11
+
+
+rounded-full
+
+
+flex
+
+items-center
+
+justify-center
+
+
+bg-white/90
+
+dark:bg-slate-800/90
+
+
+shadow-xl
+
+
+hover:scale-110
+
+
+transition
+
+"
+
+>
+
+
+<Eye
+
+size={20}
+
+className="
+text-indigo-600
+dark:text-cyan-400
+"
+
+/>
+
+
+</motion.button>
+
+
 
 
 
@@ -46,37 +440,113 @@ flex-col
 {/* IMAGE */}
 
 
-<Link to={`/product/${product.id}`}
+
+<Link
+
+to={`/product/${product.id}`}
+
 
 className="
-bg-gray-100
-dark:bg-gray-800
-h-64
+
+
+block
+
+
+bg-gradient-to-br
+
+from-slate-100
+
+to-slate-200
+
+
+dark:from-slate-800
+
+dark:to-slate-900
+
+
+
+h-72
+
+
+
 flex
+
 items-center
+
 justify-center
-p-6
+
+
+
+p-8
+
+
+
+overflow-hidden
+
+
+
 "
 
 >
 
 
-<img
+
+<motion.img
+
+loading="lazy"
+
+decoding="async"
 
 src={product.image}
 
+
 alt={product.title}
 
+
+
+animate={{
+
+y:[0,-8,0]
+
+}}
+
+
+
+transition={{
+
+duration:4,
+
+repeat:Infinity,
+
+ease:"easeInOut"
+
+}}
+
+
+
 className="
-h-52
+
+h-56
+
 w-full
+
+
 object-contain
-hover:scale-105
+
+
+group-hover:scale-110
+
+
 transition
-duration-300
+
+duration-700
+
 "
 
+
+
 />
+
 
 
 </Link>
@@ -92,12 +562,17 @@ duration-300
 {/* CONTENT */}
 
 
-<div className="
-p-5
-flex
-flex-col
-flex-1
-">
+
+<div
+
+className="
+
+p-6
+
+"
+
+>
+
 
 
 
@@ -106,17 +581,31 @@ flex-1
 <p
 
 className="
+
 text-xs
+
 uppercase
-tracking-wider
-text-gray-500
-dark:text-gray-400
-mb-2
+
+
+tracking-widest
+
+
+text-slate-500
+
+
+dark:text-slate-400
+
+
+mb-3
+
+
 "
 
 >
 
+
 {product.category}
+
 
 </p>
 
@@ -128,18 +617,36 @@ mb-2
 
 <h2
 
+
 className="
-text-base
+
+
 font-bold
-text-black
+
+
+text-lg
+
+
+text-slate-900
+
+
 dark:text-white
+
+
+
 line-clamp-2
-min-h-[48px]
+
+
+min-h-[56px]
+
+
 "
 
 >
 
+
 {product.title}
+
 
 </h2>
 
@@ -149,30 +656,214 @@ min-h-[48px]
 
 
 
-<div className="
+
+
+{/* RATING */}
+
+
+
+<div
+
+className="
+
 flex
+
 items-center
+
 gap-2
-mt-3
-">
+
+mt-4
+
+"
+
+>
 
 
-<span className="
-text-yellow-500
+
+<div
+
+
+className="
+
+flex
+
+items-center
+
+gap-1
+
+
+bg-emerald-100
+
+
+dark:bg-emerald-900
+
+
+
+text-emerald-700
+
+
+dark:text-emerald-300
+
+
+
+px-3
+
+py-1
+
+
+
+rounded-full
+
+
+
 text-sm
-">
 
-⭐ {product.rating?.rate || 5}
+
+
+font-semibold
+
+"
+
+>
+
+
+
+<Star
+
+size={14}
+
+fill="currentColor"
+
+/>
+
+
+
+{product.rating?.rate || 5}
+
+
+
+</div>
+
+
+
+
+
+<span
+
+className="
+
+text-sm
+
+text-slate-400
+
+"
+
+>
+
+
+({product.rating?.count || 0})
+
 
 </span>
 
 
-<span className="
-text-gray-400
-text-xs
-">
 
-({product.rating?.count || 0})
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* PRICE */}
+
+
+
+<div
+
+className="
+
+mt-5
+
+flex
+
+items-center
+
+justify-between
+
+"
+
+>
+
+
+
+<h3
+
+
+className="
+
+
+text-2xl
+
+
+font-black
+
+
+
+bg-gradient-to-r
+
+
+
+from-indigo-600
+
+
+via-purple-600
+
+
+to-cyan-500
+
+
+
+bg-clip-text
+
+
+text-transparent
+
+
+"
+
+>
+
+
+₹{product.price}
+
+
+</h3>
+
+
+
+
+
+
+<span
+
+className="
+
+text-xs
+
+text-slate-500
+
+"
+
+>
+
+
+Free Delivery
+
 
 </span>
 
@@ -186,40 +877,25 @@ text-xs
 
 
 
-<p
-
-className="
-text-xl
-font-bold
-text-black
-dark:text-white
-mt-4
-"
-
->
-
-₹{product.price}
-
-</p>
 
 
 
 
-
-
-
-<div className="
-flex
-gap-3
-mt-auto
-pt-5
-">
+{/* ADD CART BUTTON */}
 
 
 
 
+<motion.button
 
-<button
+
+
+whileTap={{
+
+scale:0.95
+
+}}
+
 
 
 onClick={()=>{
@@ -228,7 +904,9 @@ onClick={()=>{
 addToCart(product);
 
 
-toast.success("Added to cart 🛒");
+toast.success(
+"Added to cart 🛒"
+);
 
 
 }}
@@ -236,74 +914,152 @@ toast.success("Added to cart 🛒");
 
 
 className="
-flex-1
-bg-black
-dark:bg-white
+
+
+mt-6
+
+
+w-full
+
+
+flex
+
+items-center
+
+justify-center
+
+
+gap-2
+
+
+
+bg-gradient-to-r
+
+
+from-indigo-600
+
+
+via-purple-600
+
+
+to-cyan-500
+
+
+
 text-white
-dark:text-black
-py-2
-rounded-full
-text-sm
+
+
+
+py-3
+
+
+
+rounded-2xl
+
+
+
 font-semibold
-hover:scale-105
-transition
+
+
+
+hover:shadow-xl
+
+
+hover:shadow-indigo-500/40
+
+
+
+hover:scale-[1.03]
+
+
+
+active:scale-95
+
+
+
+transition-all
+
+
+duration-300
+
+
+
 "
 
 >
 
-Cart
-
-</button>
 
 
+<ShoppingCart size={18}/>
+
+
+Add To Cart
 
 
 
+</motion.button>
 
 
-<button
 
+<motion.button
 
-onClick={()=>{
-
-
-addToWishlist(product);
-
-
+whileHover={{
+scale:1.02
 }}
 
+whileTap={{
+scale:0.95
+}}
 
+onClick={()=>addToCompare(product)}
 
 className="
-w-11
-h-11
-rounded-full
-border
-border-gray-300
-dark:border-gray-700
-text-xl
+
+mt-3
+w-full
+
 flex
 items-center
 justify-center
-dark:text-white
-hover:bg-gray-100
-dark:hover:bg-gray-800
+gap-2
+
+py-3
+
+rounded-2xl
+
+border
+border-indigo-500
+dark:border-cyan-400
+
+bg-white
+dark:bg-slate-900
+
+text-indigo-600
+dark:text-cyan-400
+
+font-semibold
+
+hover:bg-gradient-to-r
+hover:from-indigo-600
+hover:via-purple-600
+hover:to-cyan-500
+
+hover:text-white
+
+hover:border-transparent
+
+transition-all
+duration-300
+
 "
 
 >
 
-♡
+<Scale size={18}/>
 
+Compare Products
 
-</button>
-
-
-
-
-
-
-
-</div>
+</motion.button>
 
 
 
@@ -316,14 +1072,32 @@ dark:hover:bg-gray-800
 
 
 
+</motion.div>
 
-</div>
+
+</Tilt>
 
 
+
+<QuickViewModal
+
+product={product}
+
+open={quickView}
+
+setOpen={setQuickView}
+
+/>
+
+
+
+
+</>
 
 )
 
 }
 
 
-export default ProductCard;
+
+export default React.memo(ProductCard);

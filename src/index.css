@@ -1,3 +1,168 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:Inter,sans-serif;
+transition:
+background .35s,
+color .35s;
+}
+
+body{
+@apply
+bg-slate-50
+text-slate-900
+dark:bg-slate-950
+dark:text-slate-100;
+}
+
+::selection{
+@apply
+bg-indigo-600
+text-white;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-track{
+background:#e2e8f0;
+}
+
+.dark ::-webkit-scrollbar-track{
+background:#020617;
+}
+
+::-webkit-scrollbar-thumb{
+background:#6366f1;
+border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background:#4f46e5;
+}
+
+/* Premium Glass */
+
+.glass{
+
+background:
+rgba(255,255,255,.75);
+
+backdrop-filter:
+blur(18px);
+
+border:
+1px solid rgba(255,255,255,.4);
+
+box-shadow:
+0 20px 60px rgba(15,23,42,.08);
+
+}
+
+.dark .glass{
+
+background:
+rgba(30,41,59,.55);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+}
+
+/* Premium Card */
+
+.premium-card{
+
+@apply
+
+rounded-2xl
+
+border
+
+border-slate-200
+
+dark:border-slate-700
+
+bg-white
+
+dark:bg-slate-900
+
+shadow-sm
+
+transition-all
+
+duration-300;
+
+}
+
+.premium-card:hover{
+
+transform:
+translateY(-6px);
+
+box-shadow:
+0 30px 80px rgba(99,102,241,.15);
+
+}
+
+/* Gradient Text */
+
+.gradient-text{
+
+background:
+linear-gradient(
+135deg,
+#6366F1,
+#8B5CF6,
+#06B6D4
+);
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+}
+
+/* Glow */
+
+.glow{
+
+box-shadow:
+0 0 40px rgba(99,102,241,.25);
+
+}
+
+
+.feature{
+@apply
+bg-white
+dark:bg-slate-900
+border
+border-slate-200
+dark:border-slate-700
+rounded-2xl
+p-4
+flex
+items-center
+gap-3
+font-semibold
+text-slate-700
+dark:text-white
+shadow-sm;
+}
+
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

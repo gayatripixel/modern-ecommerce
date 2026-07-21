@@ -1,137 +1,448 @@
-import useRecentStore from "../../store/recentStore";
 import { useNavigate } from "react-router-dom";
 
-function RecentlyViewed() {
+import { motion } from "framer-motion";
 
-  const navigate = useNavigate();
+import { Swiper, SwiperSlide } from "swiper/react";
 
-  const recentProducts = useRecentStore(
-    (state) => state.recentProducts
-  );
+import { Autoplay } from "swiper/modules";
 
-  if (recentProducts.length === 0) return null;
+import "swiper/css";
 
-  return (
+import useRecentStore from "../../store/recentStore";
 
-    <section className="mt-24">
 
-      <h2 className="
-      text-3xl
-      font-bold
-      mb-8
-      text-black
-      dark:text-white
-      ">
 
-        Recently Viewed
+function RecentlyViewed(){
 
-      </h2>
 
-      <div className="
-      grid
-      grid-cols-1
-      sm:grid-cols-2
-      lg:grid-cols-5
-      gap-8
-      ">
+const navigate = useNavigate();
 
-        {
 
-          recentProducts.map((product)=>(
 
-            <div
-              key={product.id}
-              className="
-              bg-white
-              dark:bg-gray-900
-              rounded-3xl
-              shadow-lg
-              border
-              border-gray-200
-              dark:border-gray-800
-              overflow-hidden
-              hover:shadow-xl
-              transition
-              "
-            >
+const recentProducts = useRecentStore(
+(state)=>state.recentProducts
+);
 
-              <img
-                src={product.image}
-                alt={product.title}
-                className="
-                h-60
-                w-full
-                object-contain
-                p-6
-                bg-white
-                "
-              />
 
-              <div className="p-5">
 
-                <h3 className="
-                font-semibold
-                line-clamp-2
-                text-black
-                dark:text-white
-                ">
+if(recentProducts.length===0)
+return null;
 
-                  {product.title}
 
-                </h3>
 
-                <p className="
-                mt-3
-                font-bold
-                text-xl
-                text-black
-                dark:text-white
-                ">
+return(
 
-                  ₹{product.price}
 
-                </p>
+<section
 
-                <button
+className="
 
-                  onClick={()=>{
-                    window.scrollTo(0,0);
-                    navigate(`/product/${product.id}`);
-                  }}
+mt-24
 
-                  className="
-                  mt-5
-                  w-full
-                  bg-black
-                  dark:bg-white
-                  text-white
-                  dark:text-black
-                  py-3
-                  rounded-full
-                  hover:scale-105
-                  transition
-                  "
+"
 
-                >
+>
 
-                  View Again
 
-                </button>
 
-              </div>
+<div
 
-            </div>
+className="
 
-          ))
+flex
 
-        }
+justify-between
 
-      </div>
+items-center
 
-    </section>
+mb-10
 
-  );
+"
+
+>
+
+
+<h2
+
+className="
+
+text-4xl
+
+font-black
+
+dark:text-white
+
+"
+
+>
+
+Recently Viewed 👀
+
+</h2>
+
+
+
+<p
+
+className="
+
+text-slate-500
+
+dark:text-slate-400
+
+hidden
+
+md:block
+
+"
+
+>
+
+Continue your shopping journey
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<Swiper
+
+
+modules={[Autoplay]}
+
+
+spaceBetween={25}
+
+
+slidesPerView={1}
+
+
+autoplay={{
+
+delay:2500
+
+}}
+
+
+breakpoints={{
+
+640:{
+
+slidesPerView:2
+
+},
+
+
+1024:{
+
+slidesPerView:4
 
 }
+
+}}
+
+
+>
+
+
+
+{
+
+recentProducts.map((product)=>(
+
+
+<SwiperSlide
+
+key={product.id}
+
+>
+
+
+
+<motion.div
+
+
+whileHover={{
+
+y:-12
+
+}}
+
+
+className="
+
+bg-white
+
+dark:bg-slate-900
+
+
+rounded-3xl
+
+
+overflow-hidden
+
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+
+shadow-lg
+
+
+transition
+
+
+"
+
+
+>
+
+
+
+{/* IMAGE */}
+
+
+<div
+
+className="
+
+h-60
+
+bg-slate-100
+
+dark:bg-slate-800
+
+flex
+
+items-center
+
+justify-center
+
+p-6
+
+"
+
+>
+
+
+<img
+
+
+src={product.image}
+
+
+alt={product.title}
+
+
+className="
+
+h-full
+
+w-full
+
+object-contain
+
+
+hover:scale-110
+
+
+transition
+
+
+duration-500
+
+"
+
+
+/>
+
+
+</div>
+
+
+
+
+
+
+{/* CONTENT */}
+
+
+
+<div
+
+className="
+
+p-5
+
+"
+
+>
+
+
+
+<h3
+
+className="
+
+font-bold
+
+dark:text-white
+
+line-clamp-2
+
+"
+
+>
+
+{product.title}
+
+</h3>
+
+
+
+
+
+<p
+
+className="
+
+mt-3
+
+text-xl
+
+font-black
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+to-cyan-500
+
+
+bg-clip-text
+
+text-transparent
+
+"
+
+>
+
+₹{product.price}
+
+</p>
+
+
+
+
+
+
+
+<button
+
+
+onClick={()=>{
+
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+
+navigate(`/product/${product.id}`);
+
+
+}}
+
+
+
+className="
+
+mt-5
+
+w-full
+
+
+py-3
+
+
+rounded-full
+
+
+bg-black
+
+dark:bg-white
+
+
+text-white
+
+dark:text-black
+
+
+font-bold
+
+
+hover:scale-105
+
+
+transition
+
+
+"
+
+>
+
+
+View Product
+
+</button>
+
+
+
+</div>
+
+
+
+</motion.div>
+
+
+
+</SwiperSlide>
+
+
+))
+
+
+}
+
+
+</Swiper>
+
+
+
+
+</section>
+
+
+)
+
+
+}
+
 
 export default RecentlyViewed;

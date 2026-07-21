@@ -1,4 +1,16 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+import {
+ShoppingCart,
+Heart,
+Package,
+LogOut,
+Mail,
+LayoutDashboard
+} from "lucide-react";
+
+
 
 import useAuthStore from "../store/authStore";
 import useCartStore from "../store/cartStore";
@@ -6,116 +18,349 @@ import useWishlistStore from "../store/wishlistStore";
 import useOrderStore from "../store/orderStore";
 
 
+
+
+
 function Profile(){
 
 
-  const user = useAuthStore(
-    (state)=>state.user
-  );
+
+const user = useAuthStore(
+(state)=>state.user
+);
 
 
-  const logout = useAuthStore(
-    (state)=>state.logout
-  );
-
-
-  const cart = useCartStore(
-    (state)=>state.cart
-  );
-
-
-  const wishlist = useWishlistStore(
-    (state)=>state.wishlist
-  );
-
-
-  const orders = useOrderStore(
-    (state)=>state.orders
-  );
+const logout = useAuthStore(
+(state)=>state.logout
+);
 
 
 
-  return (
-
-<section
-className="
-min-h-screen
-bg-gray-50
-dark:bg-gray-950
-px-6
-py-20
-"
->
-
-
-<div
-className="
-max-w-5xl
-mx-auto
-"
->
+const cart = useCartStore(
+(state)=>state.cart
+);
 
 
 
-{/* Profile Card */}
-
-<div
-className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
-p-10
-border
-border-gray-200
-dark:border-gray-800
-"
->
+const wishlist = useWishlistStore(
+(state)=>state.wishlist
+);
 
 
-<div
-className="
-flex
-items-center
-gap-6
-"
->
+
+const orders = useOrderStore(
+(state)=>state.orders
+);
 
 
-<div
-className="
-w-24
-h-24
-rounded-full
-bg-black
-dark:bg-white
-text-white
-dark:text-black
-flex
-items-center
-justify-center
-text-4xl
-font-bold
-"
->
+
+
+
+
+
+const stats=[
 
 {
-user?.name?.charAt(0)
+title:"Cart Items",
+value:cart.length,
+icon:<ShoppingCart size={28}/>,
+link:"/cart"
+},
+
+
+{
+title:"Wishlist",
+value:wishlist.length,
+icon:<Heart size={28}/>,
+link:"/wishlist"
+},
+
+
+{
+title:"Orders",
+value:orders.length,
+icon:<Package size={28}/>,
+link:"/orders"
 }
+
+];
+
+
+
+
+
+
+return(
+
+
+<section
+
+className="
+
+min-h-screen
+
+
+px-6
+
+py-24
+
+
+
+bg-slate-50
+
+
+dark:bg-slate-950
+
+
+"
+
+>
+
+
+
+<div
+
+className="
+
+max-w-6xl
+
+mx-auto
+
+"
+
+>
+
+
+
+
+
+
+
+{/* PROFILE HEADER */}
+
+
+
+<motion.div
+
+
+initial={{
+
+opacity:0,
+
+y:40
+
+}}
+
+
+
+animate={{
+
+opacity:1,
+
+y:0
+
+}}
+
+
+
+className="
+
+
+relative
+
+
+overflow-hidden
+
+
+rounded-[40px]
+
+
+
+p-10
+
+
+
+bg-white/80
+
+
+dark:bg-slate-900/80
+
+
+backdrop-blur-xl
+
+
+
+border
+
+border-slate-200
+
+dark:border-slate-700
+
+
+
+shadow-2xl
+
+
+"
+
+>
+
+
+
+
+
+<div
+
+className="
+
+absolute
+
+w-80
+
+h-80
+
+
+bg-indigo-500/20
+
+
+rounded-full
+
+
+blur-3xl
+
+
+-top-20
+
+
+-right-20
+
+
+"
+
+>
 
 </div>
 
 
 
+
+
+
+
+<div
+
+className="
+
+relative
+
+flex
+
+flex-col
+
+md:flex-row
+
+items-center
+
+gap-8
+
+"
+
+>
+
+
+
+
+
+<div
+
+className="
+
+
+w-28
+
+h-28
+
+
+rounded-full
+
+
+
+bg-gradient-to-br
+
+
+from-indigo-600
+
+
+via-purple-600
+
+
+to-cyan-500
+
+
+
+flex
+
+items-center
+
+justify-center
+
+
+
+text-white
+
+
+text-5xl
+
+
+font-black
+
+
+
+shadow-xl
+
+
+"
+
+>
+
+
+{
+
+user?.name?.charAt(0)
+
+}
+
+
+
+</div>
+
+
+
+
+
+
+
 <div>
 
+
 <h1
+
 className="
-text-3xl
-font-bold
-text-black
+
+text-4xl
+
+
+font-black
+
+
+text-slate-900
+
+
 dark:text-white
+
+
 "
+
 >
 
 Hello, {user?.name} 👋
@@ -123,189 +368,370 @@ Hello, {user?.name} 👋
 </h1>
 
 
-<p
+
+
+
+<div
+
 className="
-text-gray-500
-dark:text-gray-400
-mt-2
+
+flex
+
+items-center
+
+gap-2
+
+
+mt-3
+
+
+text-slate-500
+
+
+dark:text-slate-400
+
+
 "
+
 >
+
+
+<Mail size={18}/>
+
 
 {user?.email}
 
-</p>
-
-
-</div>
-
-
-</div>
 
 
 
 </div>
 
 
+<Link
+
+to="/admin"
+
+className="
+
+mt-6
+
+flex
+items-center
+justify-center
+gap-3
+
+px-6
+py-3
+
+rounded-2xl
+
+bg-gradient-to-r
+
+from-indigo-600
+
+to-purple-600
+
+
+text-white
+
+font-bold
+
+hover:scale-105
+
+transition
+
+"
+
+>
+
+<LayoutDashboard size={20}/>
+
+Open Admin Dashboard
+
+</Link>
 
 
 
-{/* Stats */}
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+</motion.div>
+
+
+
+
+
+
+
+
+
+{/* STATS */}
+
 
 
 <div
+
 className="
+
 grid
+
 md:grid-cols-3
-gap-6
+
+
+gap-8
+
+
 mt-10
+
+
 "
+
 >
 
+
+{
+
+
+stats.map((item,index)=>(
+
+
+<motion.div
+
+
+key={item.title}
+
+
+initial={{
+
+opacity:0,
+
+y:30
+
+}}
+
+
+
+whileInView={{
+
+opacity:1,
+
+y:0
+
+}}
+
+
+
+viewport={{
+
+once:true
+
+}}
+
+
+
+transition={{
+
+delay:index*.1
+
+}}
+
+
+
+
+whileHover={{
+
+y:-10
+
+}}
+
+
+
+>
 
 
 <Link
-to="/cart"
+
+
+to={item.link}
+
+
 className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
+
+
+block
+
+
 p-8
-shadow-lg
+
+
+
+rounded-[32px]
+
+
+
+bg-white/80
+
+
+dark:bg-slate-900/80
+
+
+
+backdrop-blur-xl
+
+
+
 border
-border-gray-200
-dark:border-gray-800
-hover:scale-105
+
+border-slate-200
+
+
+dark:border-slate-700
+
+
+
+shadow-lg
+
+
+
+hover:shadow-2xl
+
+
+
 transition
+
+
 "
+
 >
+
+
+
+
+<div
+
+className="
+
+
+w-14
+
+h-14
+
+
+
+rounded-2xl
+
+
+
+bg-gradient-to-br
+
+
+from-indigo-600
+
+
+to-purple-600
+
+
+
+flex
+
+items-center
+
+justify-center
+
+
+
+text-white
+
+
+mb-6
+
+
+"
+
+>
+
+{item.icon}
+
+
+</div>
+
+
+
+
 
 <h2
+
 className="
-text-3xl
-font-bold
-text-black
+
+text-4xl
+
+
+font-black
+
+
+text-slate-900
+
+
 dark:text-white
+
+
 "
+
 >
 
-{cart.length}
+{item.value}
 
 </h2>
 
 
+
+
+
 <p
+
 className="
-text-gray-500
-dark:text-gray-400
+
 mt-2
+
+
+font-semibold
+
+
+text-slate-500
+
+
+dark:text-slate-400
+
+
 "
+
 >
 
-🛒 Cart Items
+{item.title}
 
 </p>
+
+
 
 
 </Link>
 
 
+</motion.div>
 
 
-
-<Link
-to="/wishlist"
-className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-p-8
-shadow-lg
-border
-border-gray-200
-dark:border-gray-800
-hover:scale-105
-transition
-"
->
-
-<h2
-className="
-text-3xl
-font-bold
-text-black
-dark:text-white
-"
->
-
-{wishlist.length}
-
-</h2>
+))
 
 
-<p
-className="
-text-gray-500
-dark:text-gray-400
-mt-2
-"
->
-
-❤️ Wishlist
-
-</p>
-
-
-</Link>
-
-
-
-
-
-<Link
-to="/orders"
-className="
-bg-white
-dark:bg-gray-900
-rounded-3xl
-p-8
-shadow-lg
-border
-border-gray-200
-dark:border-gray-800
-hover:scale-105
-transition
-"
->
-
-
-<h2
-className="
-text-3xl
-font-bold
-text-black
-dark:text-white
-"
->
-
-{orders.length}
-
-</h2>
-
-
-<p
-className="
-text-gray-500
-dark:text-gray-400
-mt-2
-"
->
-
-📦 Orders
-
-</p>
-
-
-</Link>
+}
 
 
 
@@ -315,49 +741,137 @@ mt-2
 
 
 
-{/* Actions */}
 
 
-<div
+
+
+{/* LOGOUT */}
+
+
+
+<motion.div
+
+
+whileHover={{
+
+scale:1.02
+
+}}
+
+
+
 className="
+
 mt-10
-bg-white
-dark:bg-gray-900
-rounded-3xl
+
+
+rounded-[32px]
+
 p-8
-shadow-lg
+
+
+
+bg-white/80
+
+
+dark:bg-slate-900/80
+
+
+
 border
-border-gray-200
-dark:border-gray-800
+
+border-slate-200
+
+
+dark:border-slate-700
+
+
+
+shadow-lg
+
+
 "
+
 >
+
 
 
 <button
 
+
 onClick={logout}
 
+
+
 className="
+
+
 w-full
-bg-black
-dark:bg-white
+
+
+flex
+
+items-center
+
+justify-center
+
+gap-3
+
+
+
+py-4
+
+
+
+rounded-2xl
+
+
+
+bg-gradient-to-r
+
+
+from-red-500
+
+
+to-pink-500
+
+
+
 text-white
-dark:text-black
-py-3
-rounded-full
-font-semibold
+
+
+
+font-bold
+
+
+
 hover:scale-105
+
+
+
 transition
+
+
 "
 
 >
 
+
+<LogOut size={20}/>
+
+
 Logout
+
 
 </button>
 
 
-</div>
+
+</motion.div>
+
+
+
+
 
 
 
@@ -366,9 +880,13 @@ Logout
 
 </section>
 
-  )
+
+
+)
+
 
 }
+
 
 
 export default Profile;

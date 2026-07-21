@@ -1,4 +1,12 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+CheckCircle,
+Package,
+CreditCard,
+ShoppingBag
+} from "lucide-react";
+
 import useOrderStore from "../store/orderStore";
 
 
@@ -10,35 +18,49 @@ const orders = useOrderStore(
 );
 
 
-const latestOrder = orders[orders.length - 1];
+const latestOrder = orders[orders.length-1];
+
+
 
 
 
 if(!latestOrder){
 
-return (
+return(
 
-<section className="
+<section
+className="
 min-h-screen
 flex
 items-center
 justify-center
-bg-gray-50
-dark:bg-gray-950
-">
+px-6
+
+bg-slate-50
+dark:bg-slate-950
+
+"
+
+>
 
 
-<div className="
+<div
+className="
 text-center
-">
+"
+
+>
 
 
-<h1 className="
-text-3xl
-font-bold
-text-black
+<h1
+className="
+text-4xl
+font-black
+text-slate-900
 dark:text-white
-">
+"
+
+>
 
 No Order Found
 
@@ -51,12 +73,21 @@ to="/products"
 
 className="
 inline-block
-mt-6
-bg-black
-text-white
+mt-8
+
 px-8
 py-3
+
 rounded-full
+
+bg-gradient-to-r
+from-indigo-600
+via-purple-600
+to-cyan-500
+
+text-white
+font-bold
+
 "
 
 >
@@ -77,64 +108,170 @@ Shop Now
 
 
 
-return (
+
+
+
+return(
 
 <section
+
 className="
 min-h-screen
+
+relative
+
+overflow-hidden
+
 flex
 items-center
 justify-center
-bg-gray-50
-dark:bg-gray-950
+
 px-6
 py-20
+
+bg-slate-50
+dark:bg-slate-950
+
 "
+
+
 >
 
 
+{/* Background Glow */}
+
 
 <div
+className="
+absolute
+w-96
+h-96
+bg-indigo-500/20
+rounded-full
+blur-3xl
+top-10
+left-10
+"
+/>
+
+
+<div
+className="
+absolute
+w-96
+h-96
+bg-cyan-500/20
+rounded-full
+blur-3xl
+bottom-10
+right-10
+"
+/>
+
+
+
+
+
+<motion.div
+
+
+initial={{
+opacity:0,
+scale:.8
+}}
+
+animate={{
+opacity:1,
+scale:1
+}}
+
+
+transition={{
+duration:.5
+}}
+
 
 className="
+
+relative
+
 max-w-xl
 w-full
-bg-white
-dark:bg-gray-900
-rounded-3xl
-shadow-xl
-p-10
+
+bg-white/80
+dark:bg-slate-900/80
+
+backdrop-blur-xl
+
 border
-border-gray-200
-dark:border-gray-800
+border-slate-200
+dark:border-slate-800
+
+
+rounded-[40px]
+
+shadow-2xl
+
+p-10
+
 "
 
 >
 
 
 
-<div
+
+<motion.div
+
+initial={{
+scale:0
+}}
+
+animate={{
+scale:1
+}}
+
+transition={{
+delay:.2
+}}
 
 className="
-w-24
-h-24
+w-28
+h-28
+
 mx-auto
+
 rounded-full
-bg-green-500
+
+bg-gradient-to-br
+
+from-green-400
+to-emerald-600
+
+
 flex
 items-center
 justify-center
-text-white
-text-5xl
-mb-8
-animate-bounce
+
+shadow-lg
+
 "
 
 >
 
-✓
 
-</div>
+<CheckCircle
+
+size={60}
+
+className="text-white"
+
+/>
+
+
+</motion.div>
+
+
 
 
 
@@ -144,10 +281,17 @@ animate-bounce
 
 className="
 text-4xl
-font-extrabold
+
+font-black
+
 text-center
-text-black
+
+mt-8
+
+text-slate-900
+
 dark:text-white
+
 "
 
 >
@@ -163,16 +307,22 @@ Order Confirmed 🎉
 
 className="
 text-center
-text-gray-500
-dark:text-gray-400
-mt-4
+
+mt-3
+
+text-slate-500
+
+dark:text-slate-400
+
 "
 
 >
 
-Thank you for shopping with Nexora.
+Thank you for shopping with Nexora
 
 </p>
+
+
 
 
 
@@ -181,47 +331,83 @@ Thank you for shopping with Nexora.
 <div
 
 className="
-mt-8
-bg-gray-100
-dark:bg-gray-800
+
+mt-10
+
+grid
+
+gap-4
+
+"
+
+
+>
+
+
+<div
+
+className="
+flex
+items-center
+gap-4
+
+bg-slate-100
+
+dark:bg-slate-800
+
 rounded-2xl
-p-6
-space-y-4
+
+p-5
+
 "
 
 >
 
 
-<div className="flex justify-between">
+<div
+className="
+w-12
+h-12
+rounded-xl
 
-<span className="text-gray-500">
+bg-indigo-600
+
+flex
+items-center
+justify-center
+
+text-white
+"
+
+>
+
+<Package/>
+
+</div>
+
+
+
+<div>
+
+<p className="
+text-sm
+text-slate-500
+">
+
 Order ID
-</span>
 
+</p>
 
-<span className="font-bold text-black dark:text-white">
+<h3 className="
+font-bold
+dark:text-white
+">
 
 #{latestOrder.id}
 
-</span>
-
+</h3>
 
 </div>
-
-
-
-<div className="flex justify-between">
-
-<span className="text-gray-500">
-Date
-</span>
-
-
-<span className="font-semibold text-black dark:text-white">
-
-{latestOrder.date}
-
-</span>
 
 
 </div>
@@ -229,18 +415,73 @@ Date
 
 
 
-<div className="flex justify-between">
 
-<span className="text-gray-500">
+
+<div
+
+className="
+flex
+items-center
+gap-4
+
+bg-slate-100
+
+dark:bg-slate-800
+
+rounded-2xl
+
+p-5
+
+"
+
+>
+
+
+<div
+className="
+w-12
+h-12
+rounded-xl
+
+bg-purple-600
+
+flex
+items-center
+justify-center
+
+text-white
+
+"
+
+>
+
+<CreditCard/>
+
+</div>
+
+
+
+<div>
+
+<p className="
+text-sm
+text-slate-500
+">
+
 Payment
-</span>
 
+</p>
 
-<span className="font-semibold text-black dark:text-white">
+<h3 className="
+font-bold
+dark:text-white
+">
 
 {latestOrder.paymentMethod || "COD"}
 
-</span>
+</h3>
+
+</div>
 
 
 </div>
@@ -248,19 +489,44 @@ Payment
 
 
 
-<hr className="border-gray-300 dark:border-gray-700"/>
 
 
 
+<div
 
-<div className="flex justify-between text-xl font-bold">
+className="
+flex
+justify-between
 
-<span className="text-black dark:text-white">
+items-center
+
+bg-slate-100
+
+dark:bg-slate-800
+
+rounded-2xl
+
+p-5
+
+"
+
+>
+
+<span className="
+font-bold
+dark:text-white
+">
+
 Total
+
 </span>
 
 
-<span className="text-black dark:text-white">
+<span className="
+text-2xl
+font-black
+dark:text-white
+">
 
 ₹{latestOrder.total.toFixed(2)}
 
@@ -271,20 +537,31 @@ Total
 
 
 
+
 </div>
 
 
 
 
 
-<h2 className="
+
+
+<h2
+
+className="
 text-xl
-font-bold
-mt-8
-mb-4
-text-black
+
+font-black
+
+mt-10
+
+mb-5
+
 dark:text-white
-">
+
+"
+
+>
 
 Items
 
@@ -292,10 +569,15 @@ Items
 
 
 
-<div className="space-y-3">
+
+
+<div className="
+space-y-3
+">
 
 
 {
+
 latestOrder.items.map((item)=>(
 
 
@@ -304,44 +586,47 @@ latestOrder.items.map((item)=>(
 key={item.id}
 
 className="
+
 flex
+
 justify-between
-bg-gray-50
-dark:bg-gray-800
-p-4
+
+items-center
+
+bg-slate-100
+
+dark:bg-slate-800
+
 rounded-xl
+
+p-4
+
 "
 
 
 >
 
 
-<span className="
+<p className="
 text-sm
-text-black
+font-semibold
 dark:text-white
-"
-
->
+line-clamp-1
+">
 
 {item.title}
 
-</span>
-
+</p>
 
 
 <span className="
-font-semibold
-text-black
+font-bold
 dark:text-white
-"
-
->
+">
 
 x{item.quantity}
 
 </span>
-
 
 
 </div>
@@ -360,10 +645,9 @@ x{item.quantity}
 
 
 <div className="
-flex
-flex-col
+grid
 gap-4
-mt-8
+mt-10
 ">
 
 
@@ -372,19 +656,35 @@ mt-8
 to="/products"
 
 className="
-bg-black
-dark:bg-white
-text-white
-dark:text-black
 text-center
+
 py-3
+
 rounded-xl
-font-semibold
+
+
+bg-gradient-to-r
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
+text-white
+
+font-bold
+
 hover:scale-105
+
 transition
+
 "
 
 >
+
+<ShoppingBag className="inline mr-2"/>
 
 Continue Shopping
 
@@ -397,36 +697,48 @@ Continue Shopping
 to="/orders"
 
 className="
-border
-border-black
-dark:border-white
 text-center
+
 py-3
+
 rounded-xl
-text-black
+
+border
+
+border-slate-300
+
+dark:border-slate-700
+
 dark:text-white
-hover:bg-black
+
+font-bold
+
+hover:bg-slate-900
 hover:text-white
+
 dark:hover:bg-white
 dark:hover:text-black
+
 transition
+
 "
 
 >
 
-View My Orders
+View Orders
 
 </Link>
 
 
-
 </div>
 
 
 
 
 
-</div>
+</motion.div>
+
+
 
 
 </section>

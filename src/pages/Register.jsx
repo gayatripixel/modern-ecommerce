@@ -1,50 +1,85 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+Eye,
+EyeOff,
+User,
+Mail,
+Lock
+} from "lucide-react";
+
+import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 
 import useAuthStore from "../store/authStore";
 
-function Register() {
+
+
+function Register(){
+
 
 const register = useAuthStore(
 (state)=>state.register
 );
 
+
 const login = useAuthStore(
 (state)=>state.login
 );
 
-  const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
 
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
+const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  });
 
-  const handleChange = (e) => {
+const [showPassword,setShowPassword]=useState(false);
 
-    setForm({
+const [showConfirmPassword,setShowConfirmPassword]=useState(false);
 
-      ...form,
+const [loading,setLoading]=useState(false);
 
-      [e.target.name]: e.target.value
 
-    });
 
-  };
 
-const handleSubmit = (e) => {
+const [form,setForm]=useState({
+
+name:"",
+email:"",
+password:"",
+confirmPassword:""
+
+});
+
+
+
+
+
+const handleChange=(e)=>{
+
+
+setForm({
+
+...form,
+
+[e.target.name]:e.target.value
+
+});
+
+
+};
+
+
+
+
+
+
+
+const handleSubmit=(e)=>{
+
 
 e.preventDefault();
+
 
 
 if(
@@ -54,32 +89,47 @@ if(
 !form.confirmPassword
 ){
 
-toast.error("Please fill all fields");
+toast.error(
+"Please fill all fields"
+);
+
 return;
 
 }
+
+
 
 
 
 if(form.password.length < 6){
 
-toast.error("Password must be at least 6 characters");
+toast.error(
+"Password must be 6 characters"
+);
+
 return;
 
 }
+
+
 
 
 
 if(form.password !== form.confirmPassword){
 
-toast.error("Passwords do not match");
+toast.error(
+"Passwords do not match"
+);
+
 return;
 
 }
 
 
 
+
 setLoading(true);
+
 
 
 
@@ -88,21 +138,34 @@ setTimeout(()=>{
 
 const success = register({
 
-name: form.name,
-email: form.email,
-password: form.password
+name:form.name,
+
+email:form.email.toLowerCase().trim(),
+
+password:form.password,
+
+role:"user"
+
+// role:form.user
 
 });
+
+
 
 
 
 if(success){
 
 
+
 login(
-form.email,
+
+form.email.toLowerCase().trim(),
+
 form.password
+
 );
+
 
 
 toast.success(
@@ -110,10 +173,12 @@ toast.success(
 );
 
 
+
 navigate("/");
 
 
 }
+
 else{
 
 
@@ -126,318 +191,977 @@ toast.error(
 
 
 
+
 setLoading(false);
 
 
 
-},1000);
+},1200);
+
 
 
 
 };
 
-  return (
-
-    <section
-      className="
-      min-h-screen
-      flex
-      items-center
-      justify-center
-      bg-gray-50
-      dark:bg-gray-950
-      px-6
-      py-10
-    "
-    >
-
-      <form
-        onSubmit={handleSubmit}
-        className="
-        w-full
-        max-w-md
-        bg-white
-        dark:bg-gray-900
-        rounded-3xl
-        shadow-2xl
-        border
-        border-gray-200
-        dark:border-gray-800
-        p-8
-      "
-      >
-
-        <h1
-          className="
-          text-4xl
-          font-bold
-          text-center
-          text-black
-          dark:text-white
-        "
-        >
-          Create Account
-        </h1>
-
-        <p
-          className="
-          text-center
-          text-gray-500
-          dark:text-gray-400
-          mt-2
-          mb-8
-        "
-        >
-          Join Nexora today 🚀
-        </p>
-
-        <input
-
-          name="name"
-
-          placeholder="Full Name"
-
-          value={form.name}
-
-          onChange={handleChange}
-
-          className="
-          w-full
-          px-5
-          py-3
-          rounded-xl
-          border
-          mb-4
-          bg-white
-          dark:bg-gray-800
-          dark:text-white
-          dark:border-gray-700
-          outline-none
-          focus:ring-2
-          focus:ring-black
-        "
-
-        />
-
-        <input
-
-          type="email"
-
-          name="email"
-
-          placeholder="Email"
-
-          value={form.email}
-
-          onChange={handleChange}
-
-          className="
-          w-full
-          px-5
-          py-3
-          rounded-xl
-          border
-          mb-4
-          bg-white
-          dark:bg-gray-800
-          dark:text-white
-          dark:border-gray-700
-          outline-none
-          focus:ring-2
-          focus:ring-black
-        "
 
-        />
 
-        <div className="relative mb-4">
 
-          <input
 
-            type={showPassword ? "text" : "password"}
 
-            name="password"
 
-            placeholder="Password"
+return(
 
-            value={form.password}
 
-            onChange={handleChange}
+<section
 
-            className="
-            w-full
-            px-5
-            py-3
-            rounded-xl
-            border
-            bg-white
-            dark:bg-gray-800
-            dark:text-white
-            dark:border-gray-700
-            outline-none
-            focus:ring-2
-            focus:ring-black
-          "
 
-          />
+className="
 
-          <button
+min-h-screen
 
-            type="button"
+relative
 
-            onClick={() =>
-              setShowPassword(!showPassword)
-            }
+overflow-hidden
 
-            className="
-            absolute
-            right-4
-            top-3
-            text-sm
-            text-gray-500
-          "
 
-          >
+flex
 
-            {showPassword ? "Hide" : "Show"}
+items-center
 
-          </button>
+justify-center
 
-        </div>
 
-        <div className="relative">
+px-6
 
-          <input
+py-20
 
-            type={
-              showConfirmPassword
-                ? "text"
-                : "password"
-            }
 
-            name="confirmPassword"
 
-            placeholder="Confirm Password"
+bg-slate-50
 
-            value={form.confirmPassword}
+dark:bg-slate-950
 
-            onChange={handleChange}
 
-            className="
-            w-full
-            px-5
-            py-3
-            rounded-xl
-            border
-            bg-white
-            dark:bg-gray-800
-            dark:text-white
-            dark:border-gray-700
-            outline-none
-            focus:ring-2
-            focus:ring-black
-          "
+"
 
-          />
+>
 
-          <button
 
-            type="button"
 
-            onClick={() =>
-              setShowConfirmPassword(
-                !showConfirmPassword
-              )
-            }
 
-            className="
-            absolute
-            right-4
-            top-3
-            text-sm
-            text-gray-500
-          "
 
-          >
+{/* Glow Background */}
 
-            {showConfirmPassword ? "Hide" : "Show"}
 
-          </button>
+<div
 
-        </div>
+className="
+absolute
 
-        <button
+w-96
 
-          disabled={loading}
+h-96
 
-          className="
-          mt-8
-          w-full
-          bg-black
-          dark:bg-white
-          text-white
-          dark:text-black
-          py-3
-          rounded-xl
-          font-semibold
-          hover:scale-105
-          transition
-          disabled:opacity-50
-        "
+rounded-full
 
-        >
+bg-purple-500/20
 
-          {
+blur-3xl
 
-            loading
+top-10
 
-              ?
+right-10
 
-              "Creating Account..."
+"
 
-              :
+/>
 
-              "Create Account"
 
-          }
 
-        </button>
+<div
 
-        <p
-          className="
-          mt-6
-          text-center
-          text-gray-600
-          dark:text-gray-400
-        "
-        >
+className="
+absolute
 
-          Already have an account?
+w-96
 
-          <Link
+h-96
 
-            to="/login"
+rounded-full
 
-            className="
-            ml-2
-            font-semibold
-            text-black
-            dark:text-white
-          "
+bg-cyan-500/20
 
-          >
+blur-3xl
 
-            Login
+bottom-10
 
-          </Link>
+left-10
 
-        </p>
+"
 
-      </form>
+/>
 
-    </section>
 
-  );
+
+
+
+
+
+<motion.form
+
+
+onSubmit={handleSubmit}
+
+
+initial={{
+
+opacity:0,
+
+y:40
+
+}}
+
+
+animate={{
+
+opacity:1,
+
+y:0
+
+}}
+
+
+transition={{
+
+duration:.5
+
+}}
+
+
+
+className="
+
+relative
+
+
+w-full
+
+max-w-md
+
+
+bg-white/80
+
+dark:bg-slate-900/80
+
+
+backdrop-blur-xl
+
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+
+rounded-[40px]
+
+
+shadow-2xl
+
+
+p-10
+
+
+"
+
+
+>
+
+
+
+
+
+
+
+
+
+<div
+
+className="
+text-center
+
+mb-8
+
+"
+
+>
+
+
+<div
+
+className="
+
+w-20
+
+h-20
+
+
+mx-auto
+
+
+rounded-3xl
+
+
+bg-gradient-to-br
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
+flex
+
+items-center
+
+justify-center
+
+
+text-white
+
+
+text-3xl
+
+
+shadow-xl
+
+
+"
+
+>
+
+✨
+
+</div>
+
+
+
+
+<h1
+
+className="
+
+text-4xl
+
+font-black
+
+mt-6
+
+
+text-slate-900
+
+dark:text-white
+
+
+"
+
+>
+
+Create Account
+
+</h1>
+
+
+
+<p
+
+className="
+
+mt-2
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
+
+Join Nexora Premium Store 🚀
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* Name */}
+
+
+<div className="
+relative
+mb-4
+">
+
+
+<User
+
+size={20}
+
+className="
+absolute
+
+left-4
+
+top-4
+
+text-slate-400
+
+"
+
+/>
+
+
+
+<input
+
+
+name="name"
+
+
+placeholder="Full Name"
+
+
+value={form.name}
+
+
+onChange={handleChange}
+
+
+
+className="
+
+w-full
+
+pl-12
+
+py-4
+
+
+rounded-2xl
+
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
+dark:text-white
+
+
+outline-none
+
+
+focus:ring-2
+
+focus:ring-indigo-500
+
+
+"
+
+
+
+
+
+/>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* Email */}
+
+
+<div className="
+relative
+
+mb-4
+">
+
+
+<Mail
+
+size={20}
+
+className="
+absolute
+
+left-4
+
+top-4
+
+text-slate-400
+
+"
+
+/>
+
+
+
+
+<input
+
+
+type="email"
+
+
+name="email"
+
+
+placeholder="Email Address"
+
+
+
+value={form.email}
+
+
+
+onChange={handleChange}
+
+
+
+className="
+
+w-full
+
+pl-12
+
+py-4
+
+
+rounded-2xl
+
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
+dark:text-white
+
+
+outline-none
+
+
+focus:ring-2
+
+focus:ring-indigo-500
+
+
+"
+
+
+
+
+/>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* Password */}
+
+
+
+<div
+
+className="
+relative
+
+mb-4
+
+"
+
+>
+
+
+<Lock
+
+size={20}
+
+className="
+absolute
+
+left-4
+
+top-4
+
+text-slate-400
+
+"
+
+/>
+
+
+
+
+<input
+
+
+type={
+showPassword
+?
+"text"
+:
+"password"
+}
+
+
+
+name="password"
+
+
+placeholder="Password"
+
+
+
+value={form.password}
+
+
+
+onChange={handleChange}
+
+
+
+className="
+
+w-full
+
+pl-12
+
+pr-12
+
+py-4
+
+
+rounded-2xl
+
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
+dark:text-white
+
+
+outline-none
+
+
+focus:ring-2
+
+focus:ring-indigo-500
+
+
+"
+
+
+
+
+/>
+
+
+
+<button
+
+
+type="button"
+
+
+onClick={()=>setShowPassword(!showPassword)}
+
+
+
+className="
+absolute
+
+right-4
+
+top-4
+
+text-slate-400
+
+"
+
+
+>
+
+{
+
+showPassword
+
+?
+
+<EyeOff size={20}/>
+
+:
+
+<Eye size={20}/>
 
 }
+
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/* Confirm Password */}
+
+
+
+<div
+
+className="
+relative
+
+"
+
+>
+
+
+<Lock
+
+size={20}
+
+className="
+absolute
+
+left-4
+
+top-4
+
+text-slate-400
+
+"
+
+/>
+
+
+
+<input
+
+
+type={
+showConfirmPassword
+?
+"text"
+:
+"password"
+}
+
+
+
+name="confirmPassword"
+
+
+
+placeholder="Confirm Password"
+
+
+
+value={form.confirmPassword}
+
+
+
+onChange={handleChange}
+
+
+
+className="
+
+w-full
+
+pl-12
+
+pr-12
+
+py-4
+
+
+rounded-2xl
+
+
+bg-slate-100
+
+dark:bg-slate-800
+
+
+dark:text-white
+
+
+outline-none
+
+
+focus:ring-2
+
+focus:ring-indigo-500
+
+
+"
+
+
+
+
+/>
+
+
+
+
+
+<button
+
+
+type="button"
+
+
+
+onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
+
+
+
+className="
+absolute
+
+right-4
+
+top-4
+
+text-slate-400
+
+"
+
+>
+
+
+{
+
+showConfirmPassword
+
+?
+
+<EyeOff size={20}/>
+
+:
+
+<Eye size={20}/>
+
+}
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<button
+
+
+disabled={loading}
+
+
+
+className="
+
+mt-8
+
+
+w-full
+
+
+py-4
+
+
+
+rounded-2xl
+
+
+
+bg-gradient-to-r
+
+
+from-indigo-600
+
+via-purple-600
+
+to-cyan-500
+
+
+
+text-white
+
+
+
+font-bold
+
+
+
+shadow-xl
+
+
+
+hover:scale-105
+
+
+
+transition
+
+
+
+disabled:opacity-50
+
+
+
+"
+
+>
+
+
+{
+
+loading
+
+?
+
+"Creating Account..."
+
+:
+
+"Create Account 🚀"
+
+}
+
+
+</button>
+
+
+
+
+
+
+
+
+<p
+
+className="
+
+text-center
+
+mt-8
+
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
+
+
+Already have an account?
+
+
+<Link
+
+
+to="/login"
+
+
+className="
+
+ml-2
+
+font-bold
+
+
+text-indigo-600
+
+dark:text-cyan-400
+
+
+"
+
+>
+
+Login
+
+</Link>
+
+
+</p>
+
+
+
+
+
+
+
+
+</motion.form>
+
+
+
+</section>
+
+
+)
+
+}
+
 
 export default Register;

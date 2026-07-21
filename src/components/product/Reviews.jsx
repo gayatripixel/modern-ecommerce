@@ -1,91 +1,72 @@
-import { useState } from "react";
-import useReviewStore from "../../store/reviewStore";
+import { Star, BadgeCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
 
-function Reviews({productId}){
+const reviews=[
 
+{
+name:"Rahul Sharma",
+rating:5,
+comment:"Amazing quality product. Totally worth buying!",
+date:"2 days ago"
+},
 
-  const reviews = useReviewStore(
-    (state)=>state.reviews
-  );
+{
+name:"Priya Singh",
+rating:4,
+comment:"Good product and fast delivery experience.",
+date:"1 week ago"
+},
 
+{
+name:"Amit Patil",
+rating:5,
+comment:"Premium feel and great packaging.",
+date:"2 weeks ago"
+}
 
-  const addReview = useReviewStore(
-    (state)=>state.addReview
-  );
-
-
-  const [rating,setRating] = useState(5);
-
-  const [comment,setComment] = useState("");
-
-
-
-  const productReviews = reviews.filter(
-    (review)=>review.productId === productId
-  );
-
-
-
-  function handleSubmit(e){
-
-    e.preventDefault();
-
-
-    if(!comment.trim()) return;
-
-
-
-    addReview({
-
-      id:Date.now(),
-
-      productId,
-
-      user:"Gayatri",
-
-      rating,
-
-      comment,
-
-      date:new Date().toLocaleDateString()
-
-    });
-
-
-    setComment("");
-
-  }
+];
 
 
 
 
+function Reviews(){
 
-return (
+
+return(
+
 
 <section
+
 className="
-mt-20
-bg-white
-dark:bg-gray-900
-rounded-3xl
-p-8
-shadow-lg
-border
-border-gray-200
-dark:border-gray-800
+
+mt-24
+
+max-w-7xl
+
+mx-auto
+
+px-6
+
 "
+
 >
 
 
 <h2
+
 className="
-text-3xl
-font-bold
-text-black
+
+text-4xl
+
+font-black
+
 dark:text-white
-mb-8
+
+mb-10
+
 "
+
 >
 
 Customer Reviews ⭐
@@ -96,58 +77,97 @@ Customer Reviews ⭐
 
 
 
-{/* Add Review */}
+<div
 
-
-<form
-onSubmit={handleSubmit}
 className="
-space-y-5
+
+grid
+
+lg:grid-cols-3
+
+gap-8
+
 "
+
 >
 
 
-<div>
-
-<p className="
-text-gray-600
-dark:text-gray-400
-mb-3
-">
-
-Your Rating
-
-</p>
 
 
-<div className="flex gap-2">
 
+{/* RATING CARD */}
+
+
+<div
+
+className="
+
+bg-white
+
+dark:bg-slate-900
+
+rounded-3xl
+
+p-8
+
+shadow-xl
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+"
+
+>
+
+
+<h3
+
+className="
+
+text-6xl
+
+font-black
+
+dark:text-white
+
+"
+
+>
+
+4.8
+
+</h3>
+
+
+
+<div
+
+className="
+
+flex
+
+text-yellow-400
+
+my-4
+
+"
+
+>
 
 {
+
 [1,2,3,4,5].map((star)=>(
 
-
-<button
-
-type="button"
+<Star
 
 key={star}
 
-onClick={()=>setRating(star)}
+fill="currentColor"
 
-className="
-text-3xl
-"
-
->
-
-{
-star <= rating ? "⭐" : "☆"
-}
-
-
-</button>
-
+/>
 
 ))
 
@@ -157,133 +177,125 @@ star <= rating ? "⭐" : "☆"
 </div>
 
 
+
+<p
+
+className="
+
+text-slate-500
+
+dark:text-slate-400
+
+"
+
+>
+
+Based on 245 reviews
+
+</p>
+
+
+
+
 </div>
 
 
 
 
 
-<textarea
-
-value={comment}
-
-onChange={(e)=>setComment(e.target.value)}
-
-placeholder="Write your review..."
-
-className="
-w-full
-border
-rounded-2xl
-p-4
-h-32
-dark:bg-gray-800
-dark:text-white
-"
-
-></textarea>
 
 
 
+{/* STAR BREAKDOWN */}
 
-<button
-
-className="
-bg-black
-dark:bg-white
-text-white
-dark:text-black
-px-8
-py-3
-rounded-full
-font-semibold
-"
-
->
-
-Submit Review
-
-</button>
-
-
-
-</form>
-
-
-
-
-
-
-
-{/* Reviews List */}
-
-
-<div className="
-mt-10
-space-y-5
-">
-
-
-{
-productReviews.length === 0 ?
-
-
-(
-
-<p className="
-text-gray-500
-dark:text-gray-400
-">
-
-No reviews yet. Be the first one!
-
-</p>
-
-)
-
-
-:
-
-
-productReviews.map((review)=>(
 
 
 <div
 
-key={review.id}
+className="
+
+lg:col-span-2
+
+bg-white
+
+dark:bg-slate-900
+
+rounded-3xl
+
+p-8
+
+shadow-xl
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+"
+
+>
+
+
+
+{
+
+[
+
+["5 Star",90],
+
+["4 Star",70],
+
+["3 Star",40],
+
+["2 Star",20],
+
+["1 Star",10]
+
+].map(item=>(
+
+
+<div
+
+key={item[0]}
 
 className="
-bg-gray-100
-dark:bg-gray-800
-rounded-2xl
-p-5
-"
 
+mb-5
+
+"
 
 >
 
 
-<div className="
+<div
+
+className="
+
 flex
+
 justify-between
+
+mb-2
+
+dark:text-white
+
+font-semibold
+
 "
+
 >
 
+<span>
 
-<h3 className="
-font-bold
-text-black
-dark:text-white
-">
+{item[0]}
 
-{review.user}
-
-</h3>
+</span>
 
 
 <span>
 
-{"⭐".repeat(review.rating)}
+{item[1]}%
 
 </span>
 
@@ -292,33 +304,78 @@ dark:text-white
 
 
 
-<p className="
-mt-3
-text-gray-600
-dark:text-gray-300
-">
 
-{review.comment}
+<div
 
-</p>
+className="
+
+h-3
+
+bg-slate-200
+
+dark:bg-slate-700
+
+rounded-full
+
+overflow-hidden
+
+"
+
+>
 
 
-<p className="
-text-sm
-text-gray-400
-mt-3
-">
+<motion.div
 
-{review.date}
 
-</p>
+initial={{
+
+width:0
+
+}}
+
+
+whileInView={{
+
+width:`${item[1]}%`
+
+}}
+
+
+transition={{
+
+duration:1
+
+}}
+
+
+className="
+
+h-full
+
+bg-gradient-to-r
+
+from-yellow-400
+
+to-orange-500
+
+rounded-full
+
+"
+
+
+>
+
+
+</motion.div>
+
+
+</div>
 
 
 </div>
 
 
 ))
-
 
 }
 
@@ -328,7 +385,247 @@ mt-3
 
 
 
+
+
+
+</div>
+
+
+
+
+
+
+
+
+{/* REVIEW CARDS */}
+
+
+
+<div
+
+className="
+
+grid
+
+md:grid-cols-3
+
+gap-6
+
+mt-12
+
+"
+
+>
+
+
+{
+
+reviews.map((review,index)=>(
+
+
+<motion.div
+
+
+key={index}
+
+
+initial={{
+
+opacity:0,
+
+y:30
+
+}}
+
+
+whileInView={{
+
+opacity:1,
+
+y:0
+
+}}
+
+
+transition={{
+
+delay:index*.2
+
+}}
+
+
+className="
+
+bg-white
+
+dark:bg-slate-900
+
+
+rounded-3xl
+
+p-6
+
+
+shadow-lg
+
+
+border
+
+border-slate-200
+
+dark:border-slate-800
+
+"
+
+>
+
+
+
+<div
+
+className="
+
+flex
+
+justify-between
+
+items-center
+
+"
+
+>
+
+
+<h3
+
+className="
+
+font-bold
+
+dark:text-white
+
+"
+
+>
+
+{review.name}
+
+</h3>
+
+
+<BadgeCheck
+
+size={20}
+
+className="text-blue-500"
+
+/>
+
+
+</div>
+
+
+
+
+<div
+
+className="
+
+flex
+
+text-yellow-400
+
+my-3
+
+"
+
+>
+
+
+{
+
+Array(review.rating)
+
+.fill()
+
+.map((_,i)=>(
+
+<Star
+
+key={i}
+
+size={18}
+
+fill="currentColor"
+
+/>
+
+))
+
+}
+
+
+</div>
+
+
+
+<p
+
+className="
+
+text-slate-600
+
+dark:text-slate-300
+
+"
+
+>
+
+{review.comment}
+
+</p>
+
+
+
+<p
+
+className="
+
+mt-4
+
+text-sm
+
+text-slate-400
+
+"
+
+>
+
+{review.date}
+
+</p>
+
+
+
+</motion.div>
+
+
+))
+
+}
+
+
+
+</div>
+
+
+
+
+
+
+
 </section>
+
 
 )
 

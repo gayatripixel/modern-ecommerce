@@ -34,7 +34,10 @@ set((state)=>({
 
 users:[
 ...state.users,
-userData
+{
+ ...userData,
+ role:"user"
+}
 ]
 
 }));
@@ -84,9 +87,57 @@ return false;
 
 },
 
+resetPassword: (email, newPassword) => {
 
+  const user = get().users.find(
+    (user) => user.email === email
+  );
 
+  if (!user) {
 
+    return false;
+
+  }
+
+  set((state) => ({
+
+    users: state.users.map((item) =>
+
+      item.email === email
+
+        ? {
+            ...item,
+            password: newPassword
+          }
+
+        : item
+
+    )
+
+  }));
+
+  return true;
+
+},
+
+updateProfile: (updatedData) => {
+
+  set((state) => ({
+
+    user: {
+      ...state.user,
+      ...updatedData,
+    },
+
+    users: state.users.map((u) =>
+      u.email === state.user.email
+        ? { ...u, ...updatedData }
+        : u
+    ),
+
+  }));
+
+},
 
 
 logout:()=>{
@@ -102,7 +153,11 @@ user:null
 },
 
 
+isAuthenticated: () => {
 
+  return get().user !== null;
+
+},
 
 
 }),
