@@ -28,7 +28,7 @@ https://modern-ecommerce-virid.vercel.app/
 
 💻 **GitHub Repository**
 
-https://github.com/gayatripixel/modern-ecommerce
+https://github.com/GayatriThakare1216/modern-ecommerce
 
 
 </div>
