@@ -429,7 +429,7 @@ Frontend Developer
 
 GitHub
 
-[https://github.com/gayatripixel](https://github.com/gayatripixel)
+https://github.com/GayatriThakare1216
 
 LinkedIn
 
